@@ -9,6 +9,7 @@ export default function Dashboard(){
     const data:CardProps[] = [
         {
             title: "ToDoList",
+            id:'30',
             data: [
                 {title: 'firstTask', description: 'create tasks', id: '1', priority:'critical', order: 1},
                 {title: 'secondTask', description: 'add DND', id: '2', priority:'high', order: 2},
@@ -19,6 +20,7 @@ export default function Dashboard(){
         },
         {
             title: "Design",
+            id: '25',
             data: [
                 {title: 'PAges', description: 'MakePages', id: '6', priority:'critical', order: 1},
                 {title: 'Route', description: 'CreateRoute', id: '7', priority:'high', order: 2},
@@ -37,7 +39,7 @@ export default function Dashboard(){
 
         <div className='flex flex-row gap-[10px]'>
             {data.map((item) => (
-                <Card title={item.title} data={item.data} />
+                <Card key={item.id} id={item.id} title={item.title} data={item.data} />
             ))}
         </div>
     </div>
