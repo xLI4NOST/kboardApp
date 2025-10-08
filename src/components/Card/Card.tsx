@@ -17,21 +17,21 @@ import {
     rectSortingStrategy
 } from '@dnd-kit/sortable';
 import {useDispatch, useSelector} from "react-redux";
-import {addToDo, changeOrder} from "@/lib/reducers/ToDoSlice";
+import {addToDo, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
 
 export interface CardProps {
     title: string;
     id: string;
     data: TaskI[];
-    index: number;
+    index?: number;
 }
 
 export const Card = ({title, id, index, data}: CardProps) => {
     const sensors = useSensors(
         useSensor(PointerSensor),
-        useSensor(KeyboardSensor, {
-            coordinateGetter: sortableKeyboardCoordinates,
-        })
+        // useSensor(KeyboardSensor, {
+        //     coordinateGetter: sortableKeyboardCoordinates,
+        // })
     );
     const dispatch = useDispatch();
     const toDoData = useSelector(state => state.toDoSlice.data);
@@ -47,7 +47,11 @@ export const Card = ({title, id, index, data}: CardProps) => {
             ...item,
             order: index,
         }))
+
         dispatch(changeOrder({orderedArr: orderedArr, index}))
+    }
+    const handleDeleteTask = (order) => {
+        dispatch(deleteTodo({deletedItem: order, index}))
     }
 
     return <DndContext
@@ -61,8 +65,15 @@ export const Card = ({title, id, index, data}: CardProps) => {
             <SortableContext items={data} strategy={rectSortingStrategy}>
                 <div className='flex flex-col items-center gap-[30px] mt-[20px]'>
                     {data.map((item) => (
-                        <Task id={item.id} title={item.title} description={item.description} priority={item.priority}
-                              order={item.order} key={item.id}/>
+                        <Task
+                            id={item.id}
+                            title={item.title}
+                            description={item.description}
+                            priority={item.priority}
+                            order={item.order}
+                            key={item.id}
+                            deleteTask={handleDeleteTask}
+                        />
                     ))}
                 </div>
             </SortableContext>
