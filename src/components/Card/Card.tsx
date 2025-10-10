@@ -18,15 +18,17 @@ import {
 } from '@dnd-kit/sortable';
 import {useDispatch, useSelector} from "react-redux";
 import {addToDo, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
+import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 
 export interface CardProps {
     title: string;
     id: string;
     data: TaskI[];
     index?: number;
+    handleOpenModal: ()=> void
 }
 
-export const Card = ({title, id, index, data}: CardProps) => {
+export const Card = ({title, id, index, data, handleOpenModal}: CardProps) => {
     const sensors = useSensors(
         useSensor(PointerSensor),
         // useSensor(KeyboardSensor, {
@@ -49,6 +51,10 @@ export const Card = ({title, id, index, data}: CardProps) => {
         }))
 
         dispatch(changeOrder({orderedArr: orderedArr, index}))
+    }
+    const handleAddTask = (newTask) =>{
+        const newArr = selectedCard.push(newTask)
+        dispatch(addToDo({newArr: newArr, index}))
     }
     const handleDeleteTask = (order) => {
         dispatch(deleteTodo({deletedItem: order, index}))
@@ -75,6 +81,9 @@ export const Card = ({title, id, index, data}: CardProps) => {
                             deleteTask={handleDeleteTask}
                         />
                     ))}
+                    <button onClick={handleOpenModal} className='cursor-pointer'>
+                        <TaskAddIcon/>
+                    </button>
                 </div>
             </SortableContext>
         </div>

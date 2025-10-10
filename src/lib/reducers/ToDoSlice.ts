@@ -35,6 +35,7 @@ const toDoSlice = createSlice({
     },
     reducers: {
         addToDo(state, action) {
+            state.data[action.payload.index] = action.payload.newArr;
             console.log(action.payload)
         },
         changeOrder(state, action) {
