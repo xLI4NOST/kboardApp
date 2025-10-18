@@ -10,6 +10,7 @@ import {addToDo} from "@/lib/reducers/ToDoSlice";
 export default function Dashboard() {
     const toDoData = useSelector(state => state.toDoSlice.data);
     const [isOpen, setIsOpen] = useState(false);
+
     const handleOpenModal = () => {
         setIsOpen(prev => !prev);
     }

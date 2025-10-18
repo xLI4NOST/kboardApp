@@ -17,7 +17,7 @@ import {
     rectSortingStrategy
 } from '@dnd-kit/sortable';
 import {useDispatch, useSelector} from "react-redux";
-import {addToDo, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
+import {setSelectedCard, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 
 export interface CardProps {
@@ -25,43 +25,40 @@ export interface CardProps {
     id: string;
     data: TaskI[];
     index?: number;
-    handleOpenModal: ()=> void
+    handleOpenModal: () => void
 }
 
 export const Card = ({title, id, index, data, handleOpenModal}: CardProps) => {
     const sensors = useSensors(
         useSensor(PointerSensor),
-        // useSensor(KeyboardSensor, {
-        //     coordinateGetter: sortableKeyboardCoordinates,
-        // })
     );
+
     const dispatch = useDispatch();
     const toDoData = useSelector(state => state.toDoSlice.data);
     const selectedCard = toDoData[index].data
 
-    const onDragStart = (active) => {
-    }
-    const onDragEnd = (item) => {
-        const startIndex = item.active.data.current.sortable.index
-        const endIndex = item.over.data.current.sortable.index
-        const newArr = arrayMove(selectedCard, startIndex, endIndex)
-        const orderedArr = newArr.map((item, index) => ({
-            ...item,
-            order: index,
-        }))
+    const onDragEnd = (item, e) => {
+        if (item.activatorEvent.srcElement.localName === 'div') {
+            const startIndex = item.active.data.current.sortable.index
+            const endIndex = item.over.data.current.sortable.index
+            const newArr = arrayMove(selectedCard, startIndex, endIndex)
+            const orderedArr = newArr.map((item, index) => ({
+                ...item,
+                order: index,
+            }))
 
-        dispatch(changeOrder({orderedArr: orderedArr, index}))
+            dispatch(changeOrder({orderedArr: orderedArr, index}))
+        }
     }
-    const handleAddTask = (newTask) =>{
-        const newArr = selectedCard.push(newTask)
-        dispatch(addToDo({newArr: newArr, index}))
+    const handleSelectCard = () => {
+        dispatch(setSelectedCard({index: index}))
+        handleOpenModal()
     }
     const handleDeleteTask = (order) => {
         dispatch(deleteTodo({deletedItem: order, index}))
     }
 
     return <DndContext
-        onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         sensors={sensors}
         collisionDetection={closestCenter}
@@ -81,7 +78,7 @@ export const Card = ({title, id, index, data, handleOpenModal}: CardProps) => {
                             deleteTask={handleDeleteTask}
                         />
                     ))}
-                    <button onClick={handleOpenModal} className='cursor-pointer'>
+                    <button onClick={handleSelectCard} className='cursor-pointer'>
                         <TaskAddIcon/>
                     </button>
                 </div>

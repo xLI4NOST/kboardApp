@@ -14,10 +14,9 @@ export interface ModalProps {
     content: 'form' | 'confirm';
     isOpen: boolean;
     setIsOpen: () => void;
-    handleAddTask: () => void;
 }
 
-export const Modal = ({isOpen, setIsOpen, content, handleAddTask}) => {
+export const Modal = ({isOpen, setIsOpen, content}) => {
     return isOpen && <Card className="fixed min-w-[300px] left-[50%] top-[35%] z-[3] translate-x-[-50%]">
         <CardHeader>
             <button className='cursor-pointer' onClick={(e)=>{
@@ -29,7 +28,7 @@ export const Modal = ({isOpen, setIsOpen, content, handleAddTask}) => {
             <CardTitle className="text-center">Добавить задачу</CardTitle>
         </CardHeader>
         <CardContent>
-            <Form handleAddCard={handleAddTask}/>
+            <Form setIsOpen={setIsOpen}/>
         </CardContent>
     </Card>
 }
