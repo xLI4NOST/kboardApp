@@ -17,8 +17,6 @@ interface IFormInput {
 
 export const Form = ({setIsOpen}) => {
     const dispatch = useDispatch()
-    const selectedCard = useSelector(state => state.toDoSlice.selectedCard )
-    const {reset} = useForm()
     const defaultValues ={
         title: "",
         description: "",
@@ -59,8 +57,6 @@ export const Form = ({setIsOpen}) => {
         />
         {errors.priority && <span className={'text-red-500'}>Поле обязательное</span>}
 
-
-        {/*{errors.taskDescription && <span>This field is required</span>}*/}
         <Button className='cursor-pointer' type='submit' variant="outline">Добавить</Button>
     </form>
 }

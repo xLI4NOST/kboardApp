@@ -36,7 +36,7 @@ export const Task = ({id, description, priority, order, deleteTask, title}: Task
     >
         <button
             className='absolute z-3 right-[10px] top-[10px] cursor-pointer'
-            onMouseDown={(e)=> {
+            onMouseDown={(e) => {
                 e.stopPropagation();
                 deleteTask(order)
             }}

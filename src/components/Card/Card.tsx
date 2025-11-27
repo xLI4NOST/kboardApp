@@ -7,14 +7,12 @@ import {
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors,
+    useSensors, closestCorners, useDroppable,
 } from '@dnd-kit/core';
 import {
-    arrayMove,
+    arrayMove, rectSortingStrategy,
     SortableContext,
-    sortableKeyboardCoordinates,
     verticalListSortingStrategy,
-    rectSortingStrategy
 } from '@dnd-kit/sortable';
 import {useDispatch, useSelector} from "react-redux";
 import {setSelectedCard, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
@@ -57,16 +55,12 @@ export const Card = ({title, id, index, data, handleOpenModal}: CardProps) => {
     const handleDeleteTask = (order) => {
         dispatch(deleteTodo({deletedItem: order, index}))
     }
+    const {setNodeRef} = useDroppable({id})
 
-    return <DndContext
-        onDragEnd={onDragEnd}
-        sensors={sensors}
-        collisionDetection={closestCenter}
-    >
-        <div className="bg-[#F3F5F6] pl-[25px] pr-[25px] pt-[25px] pb-[30px]">
+    return<div className="bg-[#F3F5F6] pl-[25px] pr-[25px] pt-[25px] pb-[30px]">
             <p className='text-[#313131]'>{title}</p>
-            <SortableContext items={data} strategy={rectSortingStrategy}>
-                <div className='flex flex-col items-center gap-[30px] mt-[20px]'>
+            <SortableContext items={data} strategy={verticalListSortingStrategy} id={id}>
+                <div ref={setNodeRef} className='flex flex-col items-center gap-[30px] mt-[20px]'>
                     {data.map((item) => (
                         <Task
                             id={item.id}
@@ -84,5 +78,33 @@ export const Card = ({title, id, index, data, handleOpenModal}: CardProps) => {
                 </div>
             </SortableContext>
         </div>
-    </DndContext>
+
+    // <DndContext
+    //     onDragEnd={onDragEnd}
+    //     sensors={sensors}
+    //     collisionDetection={closestCorners}
+    // >
+    //     <div className="bg-[#F3F5F6] pl-[25px] pr-[25px] pt-[25px] pb-[30px]">
+    //         <p className='text-[#313131]'>{title}</p>
+    //         <SortableContext items={data} strategy={verticalListSortingStrategy}>
+    //             <div ref={setNodeRef} className='flex flex-col items-center gap-[30px] mt-[20px]'>
+    //                 {data.map((item) => (
+    //                     <Task
+    //                         id={item.id}
+    //                         title={item.title}
+    //                         description={item.description}
+    //                         priority={item.priority}
+    //                         order={item.order}
+    //                         key={item.id}
+    //                         deleteTask={handleDeleteTask}
+    //                     />
+    //                 ))}
+    //                 <button onClick={handleSelectCard} className='cursor-pointer'>
+    //                     <TaskAddIcon/>
+    //                 </button>
+    //             </div>
+    //         </SortableContext>
+    //     </div>
+    // </DndContext>
+
 }

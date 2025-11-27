@@ -2,7 +2,7 @@
 
 import React, {useState} from 'react';
 import {Card, CardProps} from "@/components/Card/Card";
-import {DndContext} from "@dnd-kit/core";
+import {closestCorners, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {useSelector} from "react-redux";
 import {Modal} from "@/components/Modal/Modal";
 import {addToDo} from "@/lib/reducers/ToDoSlice";
@@ -10,9 +10,25 @@ import {addToDo} from "@/lib/reducers/ToDoSlice";
 export default function Dashboard() {
     const toDoData = useSelector(state => state.toDoSlice.data);
     const [isOpen, setIsOpen] = useState(false);
+    const [activeId, setActiveId] = useState<string | null>(null);
 
     const handleOpenModal = () => {
         setIsOpen(prev => !prev);
+    }
+
+    const sensors = useSensors(
+        useSensor(PointerSensor),
+    );
+
+    const handleDragStart = (event) => {
+        const {active} = event;
+        setActiveId(active.id)
+    }
+
+    const handleDragOver = (event) => {
+        const {active, over} = event
+
+        if (!over) return
     }
 
     return <div
@@ -21,11 +37,19 @@ export default function Dashboard() {
             <h1 className='text-white'>Project Name</h1>
             <p className='text-white'>Goal of the board...</p>
         </div>
-        <Modal isOpen={isOpen} setIsOpen={setIsOpen} />
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen}/>
         <div className='flex flex-row gap-[10px]'>
-            {toDoData.map((item, index) => (
-                <Card key={item.id} id={item.id} index={index} title={item.title} data={item.data} handleOpenModal={handleOpenModal} />
-            ))}
+            <DndContext
+                sensors={sensors}
+                collisionDetection={closestCorners}
+                onDragStart={handleDragStart}
+                onDragOver={handleDragOver}
+            >
+                {toDoData.map((item, index) => (
+                    <Card key={item.id} id={item.id} index={index} title={item.title} data={item.data}
+                          handleOpenModal={handleOpenModal}/>
+                ))}
+            </DndContext>
         </div>
     </div>
 
