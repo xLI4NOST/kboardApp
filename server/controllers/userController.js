@@ -9,7 +9,6 @@ const generateJwt = (id, email, role) => {
 
 class UserController {
 
-
     async registration(req, res, next) {
         const {email, password, role} = req.body;
         const candidate = await User.findOne({where: {email}})
@@ -25,7 +24,16 @@ class UserController {
         const hashedPassword = await bcrypt.hash(String(password), 4);
         const user = await User.create({email, password: hashedPassword, role})
         const token = generateJwt(user.id, email, role)
-        return res.json({token: token});
+        res.cookie('token',
+            token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 15 * 60 * 1000,
+                path: '/'
+            }
+        )
+        return res.json({email: email});
     }
 
     async login(req, res, next) {
@@ -43,12 +51,33 @@ class UserController {
         }
 
         const token = generateJwt(user.id, email, comparePassword)
-        return res.json({token: token});
+        res.cookie('token',
+            token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 15 * 60 * 1000,
+                path: '/'
+            }
+        )
+
+        return res.json({email: user.email});
     }
 
     async checkAuth(req, res, next) {
-       const token = generateJwt(req.user.id, req.user.email, req.user.role);
-       return res.json({token: token});
+        const token = generateJwt(req.user.id, req.user.email, req.user.role);
+
+        res.cookie('token',
+            token, {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 15 * 60 * 1000,
+                path: '/'
+            }
+        )
+        console.log(req.user.email)
+        return res.json({email: req.user.email});
     }
 }
 

@@ -19,11 +19,11 @@ const Task = sequelize.define("task", {
     subtitle: {type: DataTypes.STRING, allowNull: true, defaultValue: ''},
 })
 
-User.hasMany(DashBoard)
+User.hasMany(DashBoard, {foreignKey: 'userId'})
 DashBoard.belongsTo(User, {foreignKey: 'userId'})
 
-DashBoard.hasMany(Task)
-Task.belongsTo(DashBoard)
+DashBoard.hasMany(Task, {foreignKey: 'userId'})
+Task.belongsTo(DashBoard, {foreignKey: 'userId'})
 
 module.exports = {
    User, DashBoard, Task

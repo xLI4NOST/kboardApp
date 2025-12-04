@@ -42,7 +42,6 @@ const toDoSlice = createSlice({
             newItem.order = card.length;
             const newArr = [...card, newItem];
             state.data[state.selectedCard].data = newArr;
-            console.log(newItem)
         },
         changeOrder(state, action) {
             state.data[action.payload.index].data = action.payload.orderedArr;
