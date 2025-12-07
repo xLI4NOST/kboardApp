@@ -5,28 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d58e2067-551a-4d07-b242-3914e85858b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/(auth)/assets/AuthForm/AuthForm.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(auth)/assets/Input/Input.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(auth)/layout.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(auth)/login/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/(auth)/register/page.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/api/authApi.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/reducers/UserSlice.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/middleware.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/cardsController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/taskController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/router/cardsRouter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/router/taskRouter.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/UserProfile/UserProfile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/userController.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/middleware/AuthHandler.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/middleware/AuthHandler.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/models/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/router/index.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/router/userRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/router/userRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(auth)/assets/AuthForm/AuthForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(auth)/assets/AuthForm/AuthForm.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/Provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/Provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/reducers/ToDoSlice.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/reducers/ToDoSlice.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/store.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -92,6 +84,14 @@
       <workItem from="1764342036156" duration="2000" />
       <workItem from="1764451736672" duration="231000" />
       <workItem from="1764775058916" duration="1000" />
+      <workItem from="1764878526881" duration="291000" />
+      <workItem from="1764936421121" duration="3426000" />
+      <workItem from="1764943487706" duration="5725000" />
+      <workItem from="1764949673096" duration="7221000" />
+      <workItem from="1764964137724" duration="23000" />
+      <workItem from="1765031745510" duration="6262000" />
+      <workItem from="1765055801984" duration="1664000" />
+      <workItem from="1765102926502" duration="3223000" />
     </task>
     <servers />
   </component>

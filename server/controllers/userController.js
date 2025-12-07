@@ -64,6 +64,23 @@ class UserController {
         return res.json({email: user.email});
     }
 
+    async logOut(req, res, next) {
+        try {
+            res.cookie('token', '', {
+                httpOnly: true,
+                secure: false,
+                sameSite: 'lax',
+                maxAge: 0,
+                path: '/'
+            })
+
+            return res.json({message: 'Successfully log out'})
+        } catch (err) {
+            console.log(err)
+            return next(ApiError.badRequest(err));
+        }
+    }
+
     async checkAuth(req, res, next) {
         const token = generateJwt(req.user.id, req.user.email, req.user.role);
 
@@ -76,7 +93,6 @@ class UserController {
                 path: '/'
             }
         )
-        console.log(req.user.email)
         return res.json({email: req.user.email});
     }
 }

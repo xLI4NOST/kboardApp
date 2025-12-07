@@ -34,8 +34,6 @@ export default function AuthForm({type}: AuthFormProps) {
     const isRegister = type === 'register' ? 'Регистрация' : 'Вход'
     const router = useRouter()
     const dispatch = useDispatch();
-    const userState = useSelector(state => state.userSlice)
-    console.log(userState)
 
     const onSubmit: SubmitHandler<formData> = async (data) => {
         const {confirmPassword, ...submitData} = data
@@ -45,17 +43,17 @@ export default function AuthForm({type}: AuthFormProps) {
                 const result = await loginUser(submitData)
                 toast.success("Вы успешно вошли")
                 const email = result.data.email
+                dispatch(authenticate({email}))
                 router.push('/dashboard')
             } else {
                 const result = await registerUser(submitData)
-                console.log(result)
                 toast.success("Вы успешно зарегистрировались")
+                const email = result.data.email
+                dispatch(authenticate({email}))
                 router.push('/dashboard')
             }
 
-
         } catch (error) {
-            console.log(error)
             if (error instanceof AxiosError) {
                 toast.error(error.response?.data?.message || "Ошибка входа")
             } else {

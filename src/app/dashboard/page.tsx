@@ -5,7 +5,6 @@ import {Card, CardProps} from "@/components/Card/Card";
 import {closestCorners, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {useSelector} from "react-redux";
 import {Modal} from "@/components/Modal/Modal";
-import {addToDo} from "@/lib/reducers/ToDoSlice";
 
 export default function Dashboard() {
     const toDoData = useSelector(state => state.toDoSlice.data);
@@ -13,7 +12,6 @@ export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [activeId, setActiveId] = useState<string | null>(null);
 
-    console.log(userState)
     const handleOpenModal = () => {
         setIsOpen(prev => !prev);
     }

@@ -8,8 +8,9 @@ const User = sequelize.define("user", {
     role: {type: DataTypes.STRING, defaultValue: 'USER'},
 })
 
-const DashBoard = sequelize.define("dashBoard", {
+const Card = sequelize.define("card", {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name:{type: DataTypes.STRING, allowNull: false},
 })
 
 const Task = sequelize.define("task", {
@@ -19,12 +20,12 @@ const Task = sequelize.define("task", {
     subtitle: {type: DataTypes.STRING, allowNull: true, defaultValue: ''},
 })
 
-User.hasMany(DashBoard, {foreignKey: 'userId'})
-DashBoard.belongsTo(User, {foreignKey: 'userId'})
+User.hasMany(Card, {foreignKey: 'userId'})
+Card.belongsTo(User, {foreignKey: 'userId'})
 
-DashBoard.hasMany(Task, {foreignKey: 'userId'})
-Task.belongsTo(DashBoard, {foreignKey: 'userId'})
+Card.hasMany(Task, {foreignKey: 'cardId'})
+Task.belongsTo(Card, {foreignKey: 'cardId'})
 
 module.exports = {
-   User, DashBoard, Task
+   User, Card, Task
 }

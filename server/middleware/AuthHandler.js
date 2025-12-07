@@ -8,7 +8,6 @@ module.exports = function (req, res, next) {
     try {
         const cookie = req.headers.cookie
         const token = cookie.split('; ').find(row => row.startsWith('token='))?.split('=')[1];
-
         if (!token) {
             return res.status(401).json({message: 'Пользователь не авторизован'});
         }
