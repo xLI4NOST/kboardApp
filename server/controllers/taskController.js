@@ -24,13 +24,14 @@ class TaskController {
                 }
             })
 
-            return res.json({taskList: tasksList})
+            return res.json(tasksList)
         } catch (err) {
             return next(ApiError.internal({message: err}));
         }
     }
 
     async addTask(req, res, next) {
+        console.log(req.body)
         if (!req.body) return next(ApiError.badRequest('Обязательные поля должны быть заполнены!'))
         const {id} = req.user
 

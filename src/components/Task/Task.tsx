@@ -1,10 +1,9 @@
 'use client'
 
-import {useDraggable} from "@dnd-kit/core";
 import {useSortable} from "@dnd-kit/sortable";
 import {CSS} from '@dnd-kit/utilities';
 import {TrashIcon} from "@/components/Task/icons/TrashIcon";
-import {log} from "node:util";
+
 
 export interface TaskI {
     id: string;
@@ -38,7 +37,7 @@ export const Task = ({id, description, priority, order, deleteTask, title}: Task
             className='absolute z-3 right-[10px] top-[10px] cursor-pointer'
             onMouseDown={(e) => {
                 e.stopPropagation();
-                deleteTask(order)
+                deleteTask()
             }}
         >
             <TrashIcon/>

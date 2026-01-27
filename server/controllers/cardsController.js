@@ -12,7 +12,7 @@ class CardController {
         try {
             const cards = await Card.findAll({where: {userId: id}})
 
-            return res.json({cards: cards})
+            return res.json(cards)
         } catch (err) {
             return next(ApiError.badRequest('Не удалось получить карточку'))
         }

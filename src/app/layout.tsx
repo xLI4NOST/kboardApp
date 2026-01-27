@@ -36,8 +36,8 @@ export default function RootLayout({
 }>) {
 
     return (
-        <html lang="en" className={`${lora.variable} ${geistSans.variable} ${geistMono.variable}`}>
-        <body className={'relative'}>
+        <html lang="en" className={`${lora.variable} ${geistSans.variable} ${geistMono.variable} h-full`}>
+        <body className={'relative h-full'}>
         <ToastContainer/>
         <Providers>
             <UserProfile/>

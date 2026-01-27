@@ -1,9 +1,5 @@
 import axios from 'axios';
-
-const authApi = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_AUTH_URL,
-    withCredentials: true
-})
+import {mainApi} from "@/app/api/index";
 
 export interface userAuthProps {
     email: string;
@@ -11,16 +7,20 @@ export interface userAuthProps {
 }
 
 export const loginUser = async (data: userAuthProps) => {
-    return authApi.post('user/login', data)
+    return mainApi.post('user/login', data)
 
 }
 
 export const registerUser = async (data: userAuthProps) => {
-    return authApi.post('user/register', data)
+    return mainApi.post('user/register', data)
 }
 
 export const checkAuth = async () => {
-    return authApi.get('/user/auth')
+    return mainApi.get('/user/auth')
 }
 
-export default authApi;
+export const logoutUser = async () => {
+    return mainApi.post('/user/logOut')
+}
+
+export default mainApi;

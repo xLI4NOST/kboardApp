@@ -31,19 +31,6 @@ const AuthInit = ({children}: { children: React.ReactNode }) => {
 
 export function Providers({children}: { children: React.ReactNode }) {
 
-
-    // useEffect(() => {
-    //     const isLogin = checkAuth()
-    //     .then((res) => {
-    //         const dispatch = useDispatch();
-    //         const email = res.data.email
-    //         console.log(res.data.email)
-    //         dispatch(authenticate({email}));
-    //     })
-    //     .catch((err) => toast.error(err));
-    //
-    // }, []);
-
     return (
         <Provider store={store}>
             <AuthInit>
