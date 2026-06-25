@@ -37,11 +37,13 @@ export default function RootLayout({
 
     return (
         <html lang="en" className={`${lora.variable} ${geistSans.variable} ${geistMono.variable} h-full`}>
-        <body className={'relative h-full'}>
+        <body className={'relative h-full flex flex-col'}>
         <ToastContainer/>
         <Providers>
             <UserProfile/>
+            <div className={'flex-1 flex flex-col'}>
             {children}
+            </div>
         </Providers>
         </body>
         </html>

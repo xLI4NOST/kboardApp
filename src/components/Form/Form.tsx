@@ -32,6 +32,7 @@ export const Form = ({setIsOpen}) => {
     })
 
     const handleAddTask = async (data) => {
+        console.log(data)
         try {
             const response = await addTask(data).unwrap()
             toast.success(response.message)

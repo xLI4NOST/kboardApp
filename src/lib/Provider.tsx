@@ -6,6 +6,7 @@ import React, {useEffect} from "react";
 import {checkAuth} from "@/app/api/authApi";
 import {toast} from "react-toastify";
 import {authenticate} from "@/lib/reducers/UserSlice";
+import {initSocket} from "@/app/webSocket/webSocket";
 
 const AuthInit = ({children}: { children: React.ReactNode }) => {
     const dispatch = useDispatch();
@@ -25,6 +26,9 @@ const AuthInit = ({children}: { children: React.ReactNode }) => {
         initAuth()
 
     }, [dispatch]);
+    useEffect(() => {
+        initSocket(dispatch)
+    }, []);
 
     return <>{children}</>
 }

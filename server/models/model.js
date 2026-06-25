@@ -18,7 +18,9 @@ const Task = sequelize.define("task", {
     priority: {type: DataTypes.STRING, defaultValue: 'LOW'},
     title: {type: DataTypes.STRING, allowNull: false, defaultValue: 'some title'},
     subtitle: {type: DataTypes.STRING, allowNull: true, defaultValue: ''},
+    order: {type: DataTypes.INTEGER, allowNull: false},
 })
+
 
 User.hasMany(Card, {foreignKey: 'userId'})
 Card.belongsTo(User, {foreignKey: 'userId'})

@@ -31,7 +31,6 @@ class TaskController {
     }
 
     async addTask(req, res, next) {
-        console.log(req.body)
         if (!req.body) return next(ApiError.badRequest('Обязательные поля должны быть заполнены!'))
         const {id} = req.user
 
@@ -49,10 +48,20 @@ class TaskController {
 
             if (!card) return next(ApiError.forbidden('Вы не можете добавить задачу в чужую карточку'))
 
+            const lastTask = await Task.findOne({
+                where: {
+                    cardId: req.body.cardId,
+                },
+                order: [['order', 'DESC']]
+            })
+            const order = lastTask ? lastTask.order + 1 : 1
+
             const newTask = await Task.create({
                 cardId: req.body.cardId,
                 priority: req.body.priority,
                 title: req.body.title,
+                subtitle: req.body.description,
+                order: order
             })
 
             return res.json({message: 'Задача успешно добавлена'});
@@ -142,6 +151,30 @@ class TaskController {
             task.save()
             return res.json({message: 'Изменения сохранены'})
 
+        } catch (err) {
+            return next(ApiError.internal({message: err}));
+        }
+    }
+
+    async changeOrderTask(req, res, next) {
+
+        const tasks = req.body
+
+
+        try {
+            for (let task of tasks) {
+                await Task.update({
+                        order: task.order,
+                    },
+                    {
+                        where: {
+                            id: task.id
+                        }
+                    }
+                )
+            }
+
+            return res.json({message: 'Порядок обновлен'})
         } catch (err) {
             return next(ApiError.internal({message: err}));
         }

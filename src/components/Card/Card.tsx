@@ -17,8 +17,16 @@ import {
 import {useDispatch, useSelector} from "react-redux";
 import {setSelectedCard, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
-import {useDeleteTaskMutation, useGetTaskByCardIdQuery} from "@/lib/services/api";
+import {
+    api,
+    useChangeOrderTaskMutation,
+    useDeleteTaskMutation,
+    useGetTaskByCardIdQuery
+} from "@/lib/services/api";
 import {toast} from "react-toastify";
+import {sendWebSocketMessage} from "@/app/webSocket/webSocket";
+import {useTaskSync} from "@/hooks/useTaskSync";
+import {useEffect, useState} from "react";
 
 export interface CardProps {
     name: string;
@@ -32,89 +40,108 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
         useSensor(PointerSensor),
     );
 
+
     const {data: tasks} = useGetTaskByCardIdQuery(id)
     const [deleteTask, res] = useDeleteTaskMutation()
+    const [changeOrderTask] = useChangeOrderTaskMutation()
 
     const dispatch = useDispatch();
     const toDoData = useSelector(state => state.toDoSlice.data);
-    // const selectedCard = toDoData[index].data
 
-    const onDragEnd = (item, e) => {
-        if (item.activatorEvent.srcElement.localName === 'div') {
-            const startIndex = item.active.data.current.sortable.index
-            const endIndex = item.over.data.current.sortable.index
-            const newArr = arrayMove(selectedCard, startIndex, endIndex)
-            const orderedArr = newArr.map((item, index) => ({
-                ...item,
-                order: index,
+    useTaskSync()
+
+    const onDragEnd = async (data) => {
+        console.log(data)
+        const activeIndex = data.active.data.current.sortable.index
+        const overIndex = data.over.data.current.sortable.index
+        if (activeIndex === overIndex) return
+
+
+        const orderedArr = async () => {
+            const newArr = arrayMove(tasks, activeIndex, overIndex)
+
+            newArr.map((task, index) => ({
+                ...task,
+                order: index + 1,
             }))
 
-            dispatch(changeOrder({orderedArr: orderedArr, index}))
+            return newArr
         }
+
+        const newArr = await orderedArr()
+
+        try {
+            const response = await changeOrderTask({newArr, id}).unwrap()
+            toast.success(response.message)
+
+        } catch (error) {
+
+            toast.error(error.status)
+        }
+
     }
     const handleSelectCard = () => {
         dispatch(setSelectedCard({index: id}))
         handleOpenModal()
     }
     const handleDeleteTask = async (id, cardId) => {
+
         try {
             const response = await deleteTask({id, cardId}).unwrap()
+
+            // console.log('after:', tasks)
             toast.success(response.message)
         } catch (error) {
             toast.error(error.message)
         }
 
     }
+
     const {setNodeRef} = useDroppable({id})
 
-    return tasks && <div className="bg-[#F3F5F6] pl-[25px] pr-[25px] pt-[25px] pb-[30px] min-h-[400px] min-w-[200px]">
+    return tasks && <div
+        className="
+        bg-[#F3F5F6]
+        pl-[25px]
+        pr-[25px]
+        pt-[25px]
+        pb-[30px]
+        min-h-[400px]
+        min-w-[200px]
+        w-[400px]
+        rounded-sm
+        max-[1100px]:w-[100%]
+        ">
+
         <p className='text-[#313131]'>{name}</p>
-        <SortableContext items={tasks} strategy={verticalListSortingStrategy} id={id}>
-            <div ref={setNodeRef} className='flex flex-col items-center gap-[30px] mt-[20px]'>
-                {tasks.map((item) => (
-                    <Task
-                        id={item.id}
-                        title={item.title}
-                        description={item.description}
-                        priority={item.priority}
-                        order={item.order}
-                        key={item.id}
-                        deleteTask={() => handleDeleteTask(item.id, id)}
-                    />
-                ))}
-                <button onClick={handleSelectCard} className='cursor-pointer'>
-                    <TaskAddIcon/>
-                </button>
-            </div>
-        </SortableContext>
+        <DndContext
+            sensors={sensors}
+            onDragEnd={onDragEnd}
+            collisionDetection={closestCorners}
+        >
+            <SortableContext items={tasks} strategy={verticalListSortingStrategy} id={id}>
+
+                <div ref={setNodeRef} className='flex flex-col items-center gap-[30px] mt-[20px]'>
+                    {tasks.map((item) => (
+                        <Task
+                            id={item.id}
+                            title={item.title}
+                            subtitle={item.subtitle}
+                            priority={item.priority}
+                            order={item.order}
+                            key={item.id}
+                            deleteTask={() => handleDeleteTask(item.id, id)}
+                        />
+                    ))}
+                    <button onClick={handleSelectCard} className='cursor-pointer'>
+                        <TaskAddIcon/>
+                    </button>
+
+                </div>
+            </SortableContext>
+        </DndContext>
+
     </div>
 
-    // <DndContext
-    //     onDragEnd={onDragEnd}
-    //     sensors={sensors}
-    //     collisionDetection={closestCorners}
-    // >
-    //     <div className="bg-[#F3F5F6] pl-[25px] pr-[25px] pt-[25px] pb-[30px]">
-    //         <p className='text-[#313131]'>{title}</p>
-    //         <SortableContext items={data} strategy={verticalListSortingStrategy}>
-    //             <div ref={setNodeRef} className='flex flex-col items-center gap-[30px] mt-[20px]'>
-    //                 {data.map((item) => (
-    //                     <Task
-    //                         id={item.id}
-    //                         title={item.title}
-    //                         description={item.description}
-    //                         priority={item.priority}
-    //                         order={item.order}
-    //                         key={item.id}
-    //                         deleteTask={handleDeleteTask}
-    //                     />
-    //                 ))}
-    //                 <button onClick={handleSelectCard} className='cursor-pointer'>
-    //                     <TaskAddIcon/>
-    //                 </button>
-    //             </div>
-    //         </SortableContext>
-    //     </div>
-    // </DndContext>
 
 }

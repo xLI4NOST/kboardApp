@@ -5,27 +5,37 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d58e2067-551a-4d07-b242-3914e85858b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/app/api/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/app/api/taskApi.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/lib/services/api.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/webSocket.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/app/webSocket/webSocket.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/hooks/useTaskSync.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/cardsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/cardsController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/controllers/taskController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/taskController.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/server/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/index.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/app/api/authApi.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/authApi.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router/taskRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/router/taskRouter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/globals.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/globals.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/layout.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Card/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Card/Card.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Form/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form/Form.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Task/Task.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Task/Task.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/UserProfile/UserProfile.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/UserProfile/UserProfile.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/lib/Provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/Provider.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/store.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/store.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/services/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="TypeScript File" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -39,23 +49,24 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Node.js.AuthHandler.js.executor": "Run",
-    "Node.js.userController.js.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "D:/ddev/landing.upkeep-main",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "ts.external.directory.path": "D:\\ddev\\kboardapp\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Node.js.AuthHandler.js.executor&quot;: &quot;Run&quot;,
+    &quot;Node.js.userController.js.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/ddev/landing.upkeep-main&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;D:\\ddev\\kboardapp\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\ddev\kboardapp\src\app\webSocket" />
       <recent name="D:\ddev\kboardapp\src\app\(auth)\assets" />
       <recent name="D:\ddev\kboardapp\src\app\(auth)" />
       <recent name="D:\ddev\kboardapp\src\app" />
@@ -102,6 +113,28 @@
       <workItem from="1766082461267" duration="3000" />
       <workItem from="1766515455469" duration="4000" />
       <workItem from="1769510605619" duration="1664000" />
+      <workItem from="1770371344986" duration="8000" />
+      <workItem from="1770583671609" duration="2000" />
+      <workItem from="1770991204418" duration="1000" />
+      <workItem from="1772390158150" duration="20000" />
+      <workItem from="1773654307420" duration="5000" />
+      <workItem from="1773910766579" duration="5000" />
+      <workItem from="1774709109936" duration="1000" />
+      <workItem from="1775293545096" duration="1000" />
+      <workItem from="1776509862590" duration="3000" />
+      <workItem from="1778878718955" duration="4000" />
+      <workItem from="1780399832653" duration="2033000" />
+      <workItem from="1780407207156" duration="7895000" />
+      <workItem from="1780422746422" duration="226000" />
+      <workItem from="1780440897793" duration="1683000" />
+      <workItem from="1780516288601" duration="3936000" />
+      <workItem from="1780603903652" duration="2085000" />
+      <workItem from="1780956048099" duration="6000" />
+      <workItem from="1781192078095" duration="3214000" />
+      <workItem from="1782304894144" duration="7239000" />
+      <workItem from="1782314762854" duration="1567000" />
+      <workItem from="1782391016002" duration="3436000" />
+      <workItem from="1782402672366" duration="2536000" />
     </task>
     <servers />
   </component>
@@ -126,6 +159,16 @@
           <url>file://$PROJECT_DIR$/src/app/api/authApi.ts</url>
           <line>8</line>
           <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Card/Card.tsx</url>
+          <line>86</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/components/Card/Card.tsx</url>
+          <line>2</line>
+          <option name="timeStamp" value="3" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

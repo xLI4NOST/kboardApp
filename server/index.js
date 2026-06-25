@@ -5,6 +5,9 @@ const models = require('./models/model');
 const cors = require('cors');
 const router = require("./router/index");
 const errorHandler = require('./middleware/ErrroHandler')
+const webSocket = require('./webSocket');
+const http = require("node:http");
+
 
 const app = express()
 app.use(cors({
@@ -23,10 +26,14 @@ const start = async ()=>{
     try {
         await sequelize.authenticate()
         await sequelize.sync()
-        app.listen(process.env.PORT, () => {console.log('server started!')});
+        const server = http.createServer(app)
+        webSocket(server)
+        server.listen(process.env.PORT, () => {console.log('server started!')});
     }catch(err){
         console.log(err)
     }
 }
+
+
 
 start()
