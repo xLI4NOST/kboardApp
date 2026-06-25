@@ -6,7 +6,7 @@ import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {addToDo} from "@/lib/reducers/ToDoSlice";
 import {register} from "node:module";
-import {useAddTaskMutation} from "@/lib/services/api";
+import {useAddCardMutation, useAddTaskMutation} from "@/lib/services/api";
 import {toast} from "react-toastify";
 
 interface IFormInput {
@@ -15,24 +15,28 @@ interface IFormInput {
     Priority: Priority;
 }
 
+interface iForm {
+    setIsOpen: () => void
+    content: 'addTask' | 'addCard'
+}
 
-export const Form = ({setIsOpen}) => {
+
+export const Form = ({setIsOpen, content}: iForm) => {
     const dispatch = useDispatch()
     const selectedCard = useSelector(state => state.toDoSlice.selectedCard)
     const [addTask] = useAddTaskMutation()
+    const [addCard] = useAddCardMutation()
     const defaultValues = {
         title: "",
         description: "",
         priority: {},
         cardId: selectedCard
     }
-
     const {control, handleSubmit, register, formState: {errors}} = useForm({
         defaultValues: defaultValues,
     })
 
     const handleAddTask = async (data) => {
-        console.log(data)
         try {
             const response = await addTask(data).unwrap()
             toast.success(response.message)
@@ -41,8 +45,26 @@ export const Form = ({setIsOpen}) => {
         }
         setIsOpen((prevState) => !prevState)
     }
+
+    const handleAddCard = async (data) => {
+        try {
+            const response = await addCard(data).unwrap()
+            toast.success(response.message)
+
+        }catch (e) {
+            toast.error(e.message)
+        }
+        setIsOpen((prevState) => !prevState)
+    }
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
-        await handleAddTask(data)
+
+        switch (content) {
+            case 'addCard':
+                await handleAddCard(data)
+                break
+            case 'addTask':
+                await handleAddTask(data)
+        }
     }
 
     return <form className='flex flex-col gap-[10px]' onSubmit={handleSubmit(onSubmit)}>
@@ -52,18 +74,17 @@ export const Form = ({setIsOpen}) => {
             control={control}
         />
         {errors.title && <span className={'text-red-500'}>Поле обязательное</span>}
-
-        <Controller
+        {content === 'addTask' && <Controller
             render={({field}) => <Textarea {...field} name='description'/>}
             name={'description'}
             control={control}
-        />
-
-        <Controller
-            render={({field}) => (<Priority {...register('priority', {required: true})} {...field}/>)}
-            name={'priority'}
-            control={control}
-        />
+        />}
+        {content === 'addTask' &&
+            <Controller
+                render={({field}) => (<Priority {...register('priority', {required: true})} {...field}/>)}
+                name={'priority'}
+                control={control}
+            />}
         {errors.priority && <span className={'text-red-500'}>Поле обязательное</span>}
 
         <Button className='cursor-pointer' type='submit' variant="outline">Добавить</Button>

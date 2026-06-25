@@ -20,8 +20,9 @@ class CardController {
 
     async addCard(req, res, next) {
         const {email, id} = req.user
+        console.log(req.body)
 
-        if (!req.body || !req.body.name) {
+        if (!req.body || !req.body.title) {
             return next(ApiError.badRequest('Одно или несколько полей пустые'))
         }
 
@@ -35,7 +36,7 @@ class CardController {
         try {
             const card = await Card.create({
                 userId: candidate.id,
-                name: req.body.name,
+                name: req.body.title,
             })
 
             return res.json({card: card});

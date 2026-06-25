@@ -25,7 +25,11 @@ const Task = sequelize.define("task", {
 User.hasMany(Card, {foreignKey: 'userId'})
 Card.belongsTo(User, {foreignKey: 'userId'})
 
-Card.hasMany(Task, {foreignKey: 'cardId'})
+Card.hasMany(Task, {
+    foreignKey: 'cardId',
+    onDelete: 'CASCADE',
+    hooks: true,
+})
 Task.belongsTo(Card, {foreignKey: 'cardId'})
 
 module.exports = {

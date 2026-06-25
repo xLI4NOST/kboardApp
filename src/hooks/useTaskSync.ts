@@ -8,25 +8,26 @@ export function useTaskSync() {
 
     useEffect(() => {
         const unsubscribe = subscribeToWebSocket((message) => {
-            // console.log('Sync received:', message);
-            console.log('message', message)
+            console.log('message')
             switch (message.event) {
                 case 'deleteTask':
-                    console.log('deleted')
-                    dispatch( api.util.invalidateTags([
-                        { type: 'Tasks', id: message.payload }
+                    dispatch(api.util.invalidateTags([
+                        {type: 'Tasks', id: message.payload}
                     ]))
                     break
                 case 'addTask':
-                    console.log(message)
-                    dispatch( api.util.invalidateTags([
-                        { type: 'Tasks', id: message.payload }
+                    dispatch(api.util.invalidateTags([
+                        {type: 'Tasks', id: message.payload}
                     ]))
                     break
                 case "changeOrder":
-                    dispatch( api.util.invalidateTags([
-                        { type: 'Tasks', id: message.payload }
+                    dispatch(api.util.invalidateTags([
+                        {type: 'Tasks', id: message.payload}
                     ]))
+                    break
+                case "addCard":
+                case "deleteCard":
+                    dispatch(api.util.invalidateTags(['Cards']))
                     break
             }
         });

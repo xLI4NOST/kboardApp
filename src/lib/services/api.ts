@@ -9,11 +9,45 @@ export const api = createApi({
         baseUrl: 'http://localhost:5000/api/',
         credentials: 'include',
     }),
-    tagTypes: ['Tasks'],
+    tagTypes: ['Tasks', 'Cards'],
 
     endpoints: (builder) => ({
         getCards: builder.query<any[], void>({
             query: () => 'card/cards',
+            providesTags: ['Cards'],
+        }),
+        addCard: builder.mutation<any[], void>({
+            query: (name: string) => ({
+                url: `card/addCard`,
+                method: 'POST',
+                body: name
+            }),
+            invalidatesTags: ['Cards'],
+            onQueryStarted: async (params, {queryFulfilled}): Promise<void> | void => {
+                try {
+                    await queryFulfilled
+                    console.log(params)
+                    sendWebSocketMessage('addCard')
+                } catch (error) {
+                    console.log('error', error);
+                }
+            }
+        }),
+        deleteCard: builder.mutation<any[], void>({
+            query: (id) => ({
+                url: `card/deleteCard/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: ['Cards'],
+            onQueryStarted: async (queryArgument, {queryFulfilled}) => {
+                try {
+                    await queryFulfilled
+
+                    sendWebSocketMessage('deleteCard')
+                } catch (error) {
+                    console.log('error', error);
+                }
+            }
         }),
         getTaskByCardId: builder.query<any[], void>({
             query: (cardId: number) => `task/${cardId}/tasks`,
@@ -33,7 +67,7 @@ export const api = createApi({
                     await queryFulfilled
 
                     sendWebSocketMessage('addTask', params.cardId);
-                }catch(error) {
+                } catch (error) {
                     console.log('error', error);
                 }
             }
@@ -44,12 +78,12 @@ export const api = createApi({
                 method: 'DELETE',
             }),
             invalidatesTags: (result, error, arg) => [{type: 'Tasks', id: arg.cardId}],
-            onQueryStarted: async (params,{queryFulfilled}) => {
+            onQueryStarted: async (params, {queryFulfilled}) => {
                 try {
                     await queryFulfilled
 
                     sendWebSocketMessage('deleteTask', params.cardId);
-                }catch (error){
+                } catch (error) {
                     console.log('error', error);
                 }
             },
@@ -61,15 +95,15 @@ export const api = createApi({
                 body: newArr
             }),
             invalidatesTags: (result, error, arg) => [{type: 'Tasks', id: arg.cardId}],
-          onQueryStarted: async (params,{queryFulfilled}) => {
+            onQueryStarted: async (params, {queryFulfilled}) => {
                 try {
                     await queryFulfilled
                     console.log(params)
                     sendWebSocketMessage('changeOrder', params.id)
-                }catch (error){
+                } catch (error) {
                     console.log('error', error);
                 }
-          }
+            }
         })
     }),
 });
@@ -77,6 +111,8 @@ export const api = createApi({
 export const {
     useGetCardsQuery,
     useGetTaskByCardIdQuery,
+    useAddCardMutation,
+    useDeleteCardMutation,
     useAddTaskMutation,
     useDeleteTaskMutation,
     useChangeOrderTaskMutation,

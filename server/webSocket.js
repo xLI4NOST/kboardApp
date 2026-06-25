@@ -10,6 +10,8 @@ module.exports = function initWebSocket(server) {
                 case "changeOrder":
                 case "connection":
                 case "deleteTask":
+                case "addCard":
+                case 'deleteCard':
                 case "addTask":
                     broadCastMessage(message)
                     break
@@ -24,6 +26,5 @@ module.exports = function initWebSocket(server) {
 }
 
 const message = {
-    event: 'message/connection',
-    array: ''
+    event: 'message/connection', array: ''
 }

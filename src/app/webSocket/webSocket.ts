@@ -25,6 +25,7 @@ export function initSocket(dispatch?) {
 }
 
 export function sendWebSocketMessage  (event, payload) {
+
     const message = {
         event: event,
         payload: payload

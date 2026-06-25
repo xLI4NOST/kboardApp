@@ -19,7 +19,7 @@ import {setSelectedCard, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 import {
     api,
-    useChangeOrderTaskMutation,
+    useChangeOrderTaskMutation, useDeleteCardMutation,
     useDeleteTaskMutation,
     useGetTaskByCardIdQuery
 } from "@/lib/services/api";
@@ -27,6 +27,7 @@ import {toast} from "react-toastify";
 import {sendWebSocketMessage} from "@/app/webSocket/webSocket";
 import {useTaskSync} from "@/hooks/useTaskSync";
 import {useEffect, useState} from "react";
+import {TrashIcon} from "@/components/Task/icons/TrashIcon";
 
 export interface CardProps {
     name: string;
@@ -44,14 +45,13 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
     const {data: tasks} = useGetTaskByCardIdQuery(id)
     const [deleteTask, res] = useDeleteTaskMutation()
     const [changeOrderTask] = useChangeOrderTaskMutation()
+    const [deleteCard] = useDeleteCardMutation()
 
     const dispatch = useDispatch();
-    const toDoData = useSelector(state => state.toDoSlice.data);
 
-    useTaskSync()
+
 
     const onDragEnd = async (data) => {
-        console.log(data)
         const activeIndex = data.active.data.current.sortable.index
         const overIndex = data.over.data.current.sortable.index
         if (activeIndex === overIndex) return
@@ -89,18 +89,27 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
         try {
             const response = await deleteTask({id, cardId}).unwrap()
 
-            // console.log('after:', tasks)
             toast.success(response.message)
         } catch (error) {
             toast.error(error.message)
         }
+    }
 
+    const handleDeleteCard = async (cardId)=>{
+        try {
+            const response = await deleteCard(cardId).unwrap()
+
+            toast.success(response.message)
+        }catch (error) {
+            toast.error(error.message)
+        }
     }
 
     const {setNodeRef} = useDroppable({id})
 
     return tasks && <div
         className="
+        relative
         bg-[#F3F5F6]
         pl-[25px]
         pr-[25px]
@@ -112,8 +121,11 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
         rounded-sm
         max-[1100px]:w-[100%]
         ">
+        <button className='absolute right-[20px] cursor-pointer' onClick={()=>handleDeleteCard(id)}>
+            <TrashIcon/>
+        </button>
 
-        <p className='text-[#313131]'>{name}</p>
+        <p className='text-[#313131] max-w-[290px]'>{name}</p>
         <DndContext
             sensors={sensors}
             onDragEnd={onDragEnd}
