@@ -8,7 +8,7 @@ export function useTaskSync() {
 
     useEffect(() => {
         const unsubscribe = subscribeToWebSocket((message) => {
-            console.log('message')
+
             switch (message.event) {
                 case 'deleteTask':
                     dispatch(api.util.invalidateTags([

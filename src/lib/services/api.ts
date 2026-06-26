@@ -26,7 +26,6 @@ export const api = createApi({
             onQueryStarted: async (params, {queryFulfilled}): Promise<void> | void => {
                 try {
                     await queryFulfilled
-                    console.log(params)
                     sendWebSocketMessage('addCard')
                 } catch (error) {
                     console.log('error', error);
@@ -98,7 +97,7 @@ export const api = createApi({
             onQueryStarted: async (params, {queryFulfilled}) => {
                 try {
                     await queryFulfilled
-                    console.log(params)
+
                     sendWebSocketMessage('changeOrder', params.id)
                 } catch (error) {
                     console.log('error', error);
