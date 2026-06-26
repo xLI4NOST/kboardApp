@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d58e2067-551a-4d07-b242-3914e85858b6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/DashboardCard/DashboardCard.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/Dashboards/Dashboards.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/NoDashboards/NoDashboards.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/hooks/useTaskSync.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTaskSync.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/lib/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/services/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Form/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form/Form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/Modal.tsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

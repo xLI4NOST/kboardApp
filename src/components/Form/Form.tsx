@@ -1,3 +1,5 @@
+'use client'
+
 import {Input} from "@/components/ui/input";
 import {Priority} from "@/components/Priority/Priority";
 import {Textarea} from "@/components/ui/textarea"
@@ -17,7 +19,7 @@ interface IFormInput {
 
 interface iForm {
     setIsOpen: () => void
-    content: 'addTask' | 'addCard'
+    content: 'addTask' | 'addCard' | 'addDashBoard'
 }
 
 

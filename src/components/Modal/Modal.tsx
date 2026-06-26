@@ -1,3 +1,5 @@
+'use client'
+
 import {
     Card,
     CardAction,
@@ -11,7 +13,7 @@ import {Form} from "@/components/Form/Form";
 import {CloseIcon} from "@/components/Modal/icons/CloseIcon";
 
 export interface ModalProps {
-    content: 'addTask' | 'addCard';
+    content: 'addTask' | 'addCard' | 'addDashBoard';
     isOpen: boolean;
     setIsOpen: () => void;
 }
