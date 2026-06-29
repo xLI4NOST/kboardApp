@@ -21,9 +21,17 @@ const Task = sequelize.define("task", {
     order: {type: DataTypes.INTEGER, allowNull: false},
 })
 
+const Dashboard  = sequelize.define("dashboard", {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, allowNull: false},
+    slug: {type: DataTypes.UUID, defaultValue: DataTypes.UUIDV4, unique: true},
+})
 
-User.hasMany(Card, {foreignKey: 'userId'})
-Card.belongsTo(User, {foreignKey: 'userId'})
+
+User.hasMany(Dashboard, {foreignKey: 'userId', hooks: true, onDelete: "CASCADE"})
+Dashboard.belongsTo(User, {foreignKey: 'userId'})
+Dashboard.hasMany(Card, {foreignKey: 'dashboardId', hooks: true, onDelete: 'CASCADE'})
+Card.belongsTo(Dashboard, {foreignKey: 'dashboardId'})
 
 Card.hasMany(Task, {
     foreignKey: 'cardId',
@@ -33,5 +41,5 @@ Card.hasMany(Task, {
 Task.belongsTo(Card, {foreignKey: 'cardId'})
 
 module.exports = {
-   User, Card, Task
+   User,Dashboard, Card, Task
 }

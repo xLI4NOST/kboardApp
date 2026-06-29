@@ -1,16 +1,21 @@
 import React from 'react';
+import Link from "next/link";
 
 export interface DashboardCardProps {
-    title: string;
+    name: string;
     backGround?: 'string';
+    id: number
 
 }
 
-const DashboardCard = ({title, backGround}: DashboardCardProps) => {
+const DashboardCard = ({name, backGround, id}: DashboardCardProps) => {
     return (
-        <div className="w-[300px] h-[200px]">
-            <h2>{title}</h2>
-        </div>
+        <Link href={`/dashboard`}>
+            <div className="w-[300px] h-[200px] bg-white rounded-sm flex items-center justify-center cursor-pointer"
+                 key={name}>
+                <h2>{name}</h2>
+            </div>
+        </Link>
     );
 };
 

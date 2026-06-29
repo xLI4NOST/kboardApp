@@ -8,7 +8,7 @@ import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
 import {addToDo} from "@/lib/reducers/ToDoSlice";
 import {register} from "node:module";
-import {useAddCardMutation, useAddTaskMutation} from "@/lib/services/api";
+import {useAddCardMutation, useAddDashboardMutation, useAddTaskMutation} from "@/lib/services/api";
 import {toast} from "react-toastify";
 
 interface IFormInput {
@@ -28,6 +28,8 @@ export const Form = ({setIsOpen, content}: iForm) => {
     const selectedCard = useSelector(state => state.toDoSlice.selectedCard)
     const [addTask] = useAddTaskMutation()
     const [addCard] = useAddCardMutation()
+    const [addDashboard] = useAddDashboardMutation()
+
     const defaultValues = {
         title: "",
         description: "",
@@ -58,6 +60,17 @@ export const Form = ({setIsOpen, content}: iForm) => {
         }
         setIsOpen((prevState) => !prevState)
     }
+
+    const handleAddDashboard = async (data) =>{
+        console.log('addDash')
+        try {
+            const response = await addDashboard(data)
+            toast.success(response.message)
+        }catch (e){
+            toast.error(e.message)
+        }
+        setIsOpen((prevState) => !prevState)
+    }
     const onSubmit: SubmitHandler<IFormInput> = async (data) => {
 
         switch (content) {
@@ -66,6 +79,10 @@ export const Form = ({setIsOpen, content}: iForm) => {
                 break
             case 'addTask':
                 await handleAddTask(data)
+                break
+            case 'addDashBoard':
+                await handleAddDashboard(data)
+                break
         }
     }
 

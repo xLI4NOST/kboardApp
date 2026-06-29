@@ -9,9 +9,21 @@ export const api = createApi({
         baseUrl: 'http://localhost:5000/api/',
         credentials: 'include',
     }),
-    tagTypes: ['Tasks', 'Cards'],
+    tagTypes: ['Dashboards','Tasks', 'Cards'],
 
     endpoints: (builder) => ({
+        getDashboards: builder.query<any[], void>({
+            query: ()=> 'dashboard/dashboards',
+            providesTags:['Dashboards'],
+        }),
+        addDashboard: builder.mutation<void>({
+            query: (name)=>({
+                url: '/dashboard/createDashboard',
+                method: 'POST',
+                body: name
+            }),
+            invalidatesTags:['Dashboards'],
+        }),
         getCards: builder.query<any[], void>({
             query: () => 'card/cards',
             providesTags: ['Cards'],
@@ -108,6 +120,8 @@ export const api = createApi({
 });
 
 export const {
+    useAddDashboardMutation,
+    useGetDashboardsQuery,
     useGetCardsQuery,
     useGetTaskByCardIdQuery,
     useAddCardMutation,

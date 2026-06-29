@@ -5,13 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d58e2067-551a-4d07-b242-3914e85858b6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/components/DashboardCard/DashboardCard.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/Dashboards/Dashboards.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/components/NoDashboards/NoDashboards.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/controllers/dashBoardController.js" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/server/router/dashBoardRouter.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/models/model.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/models/model.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router/cardsRouter.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/router/cardsRouter.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/router/index.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/router/index.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/page.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/app/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DashboardCard/DashboardCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DashboardCard/DashboardCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Dashboards/Dashboards.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Dashboards/Dashboards.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/components/Form/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form/Form.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Modal/Modal.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Modal/Modal.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/services/api.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,6 +130,9 @@
       <workItem from="1782402672366" duration="5247000" />
       <workItem from="1782408103589" duration="706000" />
       <workItem from="1782419570243" duration="3972000" />
+      <workItem from="1782737701565" duration="391000" />
+      <workItem from="1782744711383" duration="1542000" />
+      <workItem from="1782748316962" duration="1916000" />
     </task>
     <servers />
   </component>
