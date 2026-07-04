@@ -4,13 +4,14 @@ import Link from "next/link";
 export interface DashboardCardProps {
     name: string;
     backGround?: 'string';
-    id: number
+    id: number;
+    slug: string
 
 }
 
-const DashboardCard = ({name, backGround, id}: DashboardCardProps) => {
+const DashboardCard = ({name, backGround, id, slug}: DashboardCardProps) => {
     return (
-        <Link href={`/dashboard`}>
+        <Link href={`/dashboard/${id}`}>
             <div className="w-[300px] h-[200px] bg-white rounded-sm flex items-center justify-center cursor-pointer"
                  key={name}>
                 <h2>{name}</h2>

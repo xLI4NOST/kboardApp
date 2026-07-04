@@ -5,6 +5,7 @@ import {logoutUser} from "@/app/api/authApi";
 import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import {authenticate} from "@/lib/reducers/UserSlice";
+import {api} from "@/lib/services/api";
 
 
 export default function UserProfile() {
@@ -16,7 +17,7 @@ export default function UserProfile() {
         try {
             await logoutUser()
             toast.success("User logged out successfully")
-            dispatch(authenticate({}))
+            dispatch(api.util.resetApiState());
             router.push('/login')
         } catch (error) {
             toast.error(error.message)

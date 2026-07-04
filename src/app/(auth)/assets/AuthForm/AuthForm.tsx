@@ -44,13 +44,13 @@ export default function AuthForm({type}: AuthFormProps) {
                 toast.success("Вы успешно вошли")
                 const email = result.data.email
                 dispatch(authenticate({email}))
-                router.push('/dashboard')
+                router.push('/')
             } else {
                 const result = await registerUser(submitData)
                 toast.success("Вы успешно зарегистрировались")
                 const email = result.data.email
                 dispatch(authenticate({email}))
-                router.push('/dashboard')
+                router.push('/')
             }
 
         } catch (error) {

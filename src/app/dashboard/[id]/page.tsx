@@ -3,22 +3,20 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, CardProps} from "@/components/Card/Card";
 import {closestCorners, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
-import {useSelector} from "react-redux";
 import {Modal} from "@/components/Modal/Modal";
 import {useGetCardsQuery} from "@/lib/services/api";
-import {toast} from "react-toastify";
-import {json} from "node:stream/consumers";
-import {initSocket, sendWebSocketMessage} from "@/app/webSocket/webSocket";
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 import {useTaskSync} from "@/hooks/useTaskSync";
+import {useParams, useSearchParams} from "next/navigation";
 
 export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [isModalContent, setIsModalContent] = useState('');
+    const {id} = useParams()
+
     useTaskSync()
 
-    const {data: cards} = useGetCardsQuery()
-
+    const {data: cards} = useGetCardsQuery(id)
 
     const handleOpenModal = (type) => {
         setIsOpen(prev => !prev);
@@ -67,14 +65,21 @@ export default function Dashboard() {
                 onDragOver={handleDragOver}
             >
                 {cards.map((item, index) => (
-                    <Card key={item.id} id={item.id} index={index} name={item.name} handleOpenModal={()=>{handleOpenModal('addTask')}}/>
+                    <Card key={item.id} id={item.id} dashboardId={id} index={index} name={item.name} handleOpenModal={()=>{handleOpenModal('addTask')}}/>
                 ))}
+
                 <button className='cursor-pointer' onClick={()=>handleOpenModal('addCard')}>
                     <TaskAddIcon/>
                 </button>
             </DndContext>
         </div>
-    </div> :<div>Нет карточек</div>
+    </div> : <div className={'w-full h-full'}>
+        <Modal isOpen={isOpen} setIsOpen={setIsOpen} content={isModalContent}/>
+        <button className='cursor-pointer' onClick={()=>setIsOpen(prev => !prev)}>
+            <TaskAddIcon/>
+        </button>
+        Нет карточек
+    </div>
 
 
 }

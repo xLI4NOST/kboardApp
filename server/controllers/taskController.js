@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError');
-const {Task, Card} = require("../models/model");
+const {Task, Card, Dashboard} = require("../models/model");
 const {where} = require("sequelize");
 
 class TaskController {
@@ -11,9 +11,14 @@ class TaskController {
             const selectedCard = await Card.findOne({
                 where:
                     {
-                        userId: id,
                         id: cardId
+                    },
+                include:{
+                    model:Dashboard,
+                    where: {
+                        userId: id
                     }
+                }
             })
 
             if (!selectedCard) return next(ApiError.badRequest('Ошибка, возможно такой карточки не существует'))
@@ -42,9 +47,10 @@ class TaskController {
             const card = await Card.findOne({
                 where: {
                     id: req.body.cardId,
-                    userId: id
+                    dashboardId: req.body.dashboardId
                 }
             })
+
 
             if (!card) return next(ApiError.forbidden('Вы не можете добавить задачу в чужую карточку'))
 
@@ -63,6 +69,7 @@ class TaskController {
                 subtitle: req.body.description,
                 order: order
             })
+
 
             return res.json({message: 'Задача успешно добавлена'});
         } catch (err) {
@@ -83,7 +90,6 @@ class TaskController {
                 },
                 include: {
                     model: Card,
-                    where: {userId: id}
                 }
             })
             if (!task) return next(ApiError.badRequest('Возможно у вас нет прав для удаления данной задачи'))

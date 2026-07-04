@@ -1,16 +1,23 @@
 const ApiError = require('../error/ApiError');
-const {User, Card} = require('../models/model');
+const {User, Card, Dashboard} = require('../models/model');
 
 class CardController {
     async getCards(req, res, next) {
         const {id} = req.user
+        const {dashboardId} = req.params
 
         if (!id) {
             return next(ApiError.badRequest('Возникла ошибка: вы не можете добавить карточку, возможно пользователь не существует'))
         }
 
+
         try {
-            const cards = await Card.findAll({where: {userId: id}})
+            const cards = await Card.findAll({
+                where: {
+                    dashboardId: dashboardId
+                }
+            })
+
 
             return res.json(cards)
         } catch (err) {
@@ -20,7 +27,18 @@ class CardController {
 
     async addCard(req, res, next) {
         const {email, id} = req.user
-        console.log(req.body)
+        const {title, dashboardId} = req.body
+        const dashBoard = await Dashboard.findOne({
+            where: {
+                userId: id,
+                id: dashboardId
+            },
+        })
+
+
+        if (!dashBoard) {
+            return next(ApiError.badRequest('Ошибка, такой дашборд не существует'))
+        }
 
         if (!req.body || !req.body.title) {
             return next(ApiError.badRequest('Одно или несколько полей пустые'))
@@ -35,8 +53,8 @@ class CardController {
 
         try {
             const card = await Card.create({
-                userId: candidate.id,
-                name: req.body.title,
+                dashboardId: dashboardId,
+                name: title,
             })
 
             return res.json({card: card});
@@ -60,8 +78,13 @@ class CardController {
                 where:
                     {
                         id: deleteId,
+                    },
+                include: {
+                    model:Dashboard,
+                    where:{
                         userId: id
                     }
+                }
             })
             if (!deleted) {
                 return next(ApiError.badRequest('Возникла ошибка: вы не можете удалить карточку, такой карточки не существует'))

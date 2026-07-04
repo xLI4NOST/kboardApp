@@ -16,7 +16,7 @@ export interface TaskI {
 
 export const Task = ({id, subtitle, priority, order, deleteTask, title}: TaskI) => {
     let priorityCor = ''
-
+    console.log(priority)
     switch (priority) {
         case 'critical':
             priorityCor = 'bg-[#FFB9B9]'

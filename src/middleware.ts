@@ -8,7 +8,8 @@ export function middleware(req: NextRequest) {
     if (token?.length) {
         try {
             if (url.pathname === '/login' || url.pathname === '/register') {
-                return NextResponse.redirect(new URL('/dashboard', req.url));
+                console.log('here')
+                return NextResponse.redirect(new URL('/', req.url));
             }
         } catch (e) {
             const response = NextResponse.next();
@@ -16,7 +17,10 @@ export function middleware(req: NextRequest) {
         }
     }
 
-    if (!token && url.pathname === '/dashboard') {
+    if (!token && url.pathname.startsWith('/dashboard')) {
+        return NextResponse.redirect(new URL('/login', req.url));
+    }
+    if(!token && url.pathname === '/'){
         return NextResponse.redirect(new URL('/login', req.url));
     }
 
@@ -24,5 +28,5 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-    matcher: ['/dashboard/:path*', '/register', '/login'],
+    matcher: ['/','/dashboard/:path*', '/register', '/login'],
 };

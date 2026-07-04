@@ -1,6 +1,6 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {sendWebSocketMessage} from "@/app/webSocket/webSocket";
-import {MutationLifecycleApi} from "@reduxjs/toolkit/src/query/core";
+import {MutationLifecycleApi, QueryLifecycleApi} from "@reduxjs/toolkit/src/query/core";
 
 export const api = createApi({
     reducerPath: 'api',
@@ -24,15 +24,18 @@ export const api = createApi({
             }),
             invalidatesTags:['Dashboards'],
         }),
-        getCards: builder.query<any[], void>({
-            query: () => 'card/cards',
+        getCards: builder.query<any[], number>({
+            query: (dashboardId) => `card/${dashboardId}/cards`,
             providesTags: ['Cards'],
         }),
         addCard: builder.mutation<any[], void>({
-            query: (name: string) => ({
+            query: ({name, dashboardId}) => ({
                 url: `card/addCard`,
                 method: 'POST',
-                body: name
+                body: {
+                    title: name,
+                    dashboardId: dashboardId,
+                }
             }),
             invalidatesTags: ['Cards'],
             onQueryStarted: async (params, {queryFulfilled}): Promise<void> | void => {

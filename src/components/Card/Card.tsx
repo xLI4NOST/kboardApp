@@ -33,14 +33,14 @@ export interface CardProps {
     name: string;
     id: string;
     index?: number;
-    handleOpenModal: () => void
+    handleOpenModal: () => void;
+    dashboardId: string;
 }
 
-export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
+export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: CardProps) => {
     const sensors = useSensors(
         useSensor(PointerSensor),
     );
-
 
     const {data: tasks} = useGetTaskByCardIdQuery(id)
     const [deleteTask, res] = useDeleteTaskMutation()
@@ -48,7 +48,7 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
     const [deleteCard] = useDeleteCardMutation()
 
     const dispatch = useDispatch();
-
+    console.log(dashboardId)
 
 
     const onDragEnd = async (data) => {
@@ -73,9 +73,7 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
         try {
             const response = await changeOrderTask({newArr, id}).unwrap()
             toast.success(response.message)
-
         } catch (error) {
-
             toast.error(error.status)
         }
 
@@ -83,6 +81,7 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
     const handleSelectCard = () => {
         dispatch(setSelectedCard({index: id}))
         handleOpenModal()
+
     }
     const handleDeleteTask = async (id, cardId) => {
 
@@ -107,7 +106,7 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
 
     const {setNodeRef} = useDroppable({id})
 
-    return tasks && <div
+    return tasks ? <div
         className="
         relative
         bg-[#F3F5F6]
@@ -125,7 +124,7 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
             <TrashIcon/>
         </button>
 
-        <p className='text-[#313131] max-w-[290px]'>{name}</p>
+        <p className='text-[#313131] max-w-[290px] '>{name}</p>
         <DndContext
             sensors={sensors}
             onDragEnd={onDragEnd}
@@ -153,6 +152,29 @@ export const Card = ({name, id, index, data, handleOpenModal}: CardProps) => {
             </SortableContext>
         </DndContext>
 
+    </div> : <div className="
+        relative
+        bg-[#F3F5F6]
+        pl-[25px]
+        pr-[25px]
+        pt-[25px]
+        pb-[30px]
+        min-h-[400px]
+        min-w-[200px]
+        w-[400px]
+        rounded-sm
+        max-[1100px]:w-[100%]
+        flex
+        ">
+        <button className='absolute right-[20px] cursor-pointer' onClick={() => handleDeleteCard(id)}>
+            <TrashIcon/>
+        </button>
+
+        <p className='text-[#313131] max-w-[290px] '>{name}</p>
+
+        <button onClick={handleSelectCard} className='cursor-pointer self-center'>
+            <TaskAddIcon/>
+        </button>
     </div>
 
 

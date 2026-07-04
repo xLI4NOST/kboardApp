@@ -10,6 +10,7 @@ import {addToDo} from "@/lib/reducers/ToDoSlice";
 import {register} from "node:module";
 import {useAddCardMutation, useAddDashboardMutation, useAddTaskMutation} from "@/lib/services/api";
 import {toast} from "react-toastify";
+import {useParams} from "next/navigation";
 
 interface IFormInput {
     text: string;
@@ -30,6 +31,9 @@ export const Form = ({setIsOpen, content}: iForm) => {
     const [addCard] = useAddCardMutation()
     const [addDashboard] = useAddDashboardMutation()
 
+    const {id} = useParams()
+    console.log(content)
+
     const defaultValues = {
         title: "",
         description: "",
@@ -41,8 +45,12 @@ export const Form = ({setIsOpen, content}: iForm) => {
     })
 
     const handleAddTask = async (data) => {
+        const newData = {
+            ...data,
+            dashboardId: id
+        }
         try {
-            const response = await addTask(data).unwrap()
+            const response = await addTask(newData).unwrap()
             toast.success(response.message)
         } catch (err) {
             toast.error(err.message)
@@ -52,7 +60,7 @@ export const Form = ({setIsOpen, content}: iForm) => {
 
     const handleAddCard = async (data) => {
         try {
-            const response = await addCard(data).unwrap()
+            const response = await addCard({name: data.title, dashboardId: id})
             toast.success(response.message)
 
         }catch (e) {

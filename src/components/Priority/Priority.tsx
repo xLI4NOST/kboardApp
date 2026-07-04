@@ -19,7 +19,7 @@ export const Priority = ({...props}) => {
                     <span className='block w-[50px] h-[20px] rounded-sm bg-[#FFB9B9]'></span>
                 </div>
             </SelectItem>
-            <SelectItem value="hight">
+            <SelectItem value="high">
                 <div className='flex flex-row gap-[10px] items-center'>
                     <p>Высокий</p>
                     <span className='block w-[50px] h-[20px] rounded-sm bg-[#FFC48D]'></span>

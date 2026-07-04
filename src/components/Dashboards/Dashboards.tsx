@@ -19,7 +19,7 @@ const Dashboards = ({dashBoardCards, backGround}:DashboardProps) => {
 
     return<div className={'flex justify-start gap-[20px]'}>
             <Modal content={'addDashBoard'} isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>
-            {dashboards ? dashboards.map((dashBoard)=>(<DashboardCard key={dashBoard.id} name={dashBoard.name} backGround={dashBoard.backGround} id={dashBoard.id}/>)) : <NoDashboards isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>}
+            {dashboards ? dashboards.map((dashBoard)=>(<DashboardCard key={dashBoard.id} name={dashBoard.name} backGround={dashBoard.backGround} slug={dashBoard.slug} id={dashBoard.id}/>)) : <NoDashboards isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>}
             <button className='cursor-pointer' onClick={setIsModalOpen}>
                 <TaskAddIcon/>
             </button>
