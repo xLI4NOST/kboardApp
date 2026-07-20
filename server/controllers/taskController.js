@@ -15,9 +15,7 @@ class TaskController {
                     },
                 include:{
                     model:Dashboard,
-                    where: {
-                        userId: id
-                    }
+
                 }
             })
 
@@ -37,17 +35,23 @@ class TaskController {
 
     async addTask(req, res, next) {
         if (!req.body) return next(ApiError.badRequest('Обязательные поля должны быть заполнены!'))
-        const {id} = req.user
+
 
         if (!req.body.title || !req.body.priority || !req.body.cardId) {
             return next(ApiError.badRequest('Добавляемая сущность не прошла валидацию'))
         }
 
         try {
+            const dashboard = await Dashboard.findOne({
+                where:{
+                    slug: req.body.slug
+                }
+            })
+
             const card = await Card.findOne({
                 where: {
                     id: req.body.cardId,
-                    dashboardId: req.body.dashboardId
+                    dashboardId: dashboard.id
                 }
             })
 

@@ -8,7 +8,6 @@ export function middleware(req: NextRequest) {
     if (token?.length) {
         try {
             if (url.pathname === '/login' || url.pathname === '/register') {
-                console.log('here')
                 return NextResponse.redirect(new URL('/', req.url));
             }
         } catch (e) {

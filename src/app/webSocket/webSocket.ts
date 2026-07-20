@@ -4,32 +4,49 @@ let socket = null
 const listeners: ((message: any) => void)[] = [];
 
 export function initSocket(dispatch?) {
-    socket = new WebSocket("ws://localhost:5000")
-    // console.log(dispatch)
-    socket.onopen = () => {
-        const message = {
-            event: 'connection',
+    // console.log('init socket called')
+
+    return new Promise((resolve, reject) => {
+        if (socket) {
+            return resolve(socket);
         }
-        socket.send(JSON.stringify(message))
-    }
-    socket.onmessage = (event, payload) => {
-        const message = JSON.parse(event.data)
-        listeners.forEach(listener => listener(message));
-    }
-    socket.onclose = () => {
-        console.log('socket closed')
-    }
-    socket.onerror = (err) => {
-        console.log(err)
-    }
+        socket = new WebSocket("ws://localhost:5000")
+        // console.log("socket created", socket);
+
+        socket.onopen = () => {
+            // console.log("socket open");
+            resolve(socket)
+            const message = {
+                event: 'connection',
+            }
+            socket.send(JSON.stringify(message))
+        }
+        socket.onmessage = (event, payload) => {
+            const message = JSON.parse(event.data)
+            listeners.forEach(listener => listener(message));
+        }
+        socket.onclose = () => {
+            console.log('socket closed')
+        }
+        socket.onerror = (err) => {
+            console.log(err)
+        }
+    })
+
 }
 
-export function sendWebSocketMessage  (event, payload) {
+export async function sendWebSocketMessage  (event, payload) {
+    if (!socket) {
+        await initSocket()
+    }
 
     const message = {
         event: event,
         payload: payload
     }
+
+    // console.log(message)
+
     socket.send(JSON.stringify(message))
 }
 

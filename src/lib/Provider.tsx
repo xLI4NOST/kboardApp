@@ -13,9 +13,12 @@ const AuthInit = ({children}: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const initAuth = async () => {
+            // console.log("1. checkAuth");
             try {
                 const res = await checkAuth()
                 const email = res.data.email;
+
+                await initSocket()
 
                 dispatch(authenticate({email}))
             } catch (e) {
@@ -26,9 +29,9 @@ const AuthInit = ({children}: { children: React.ReactNode }) => {
         initAuth()
 
     }, [dispatch]);
-    useEffect(() => {
-        initSocket(dispatch)
-    }, []);
+    // useEffect(() => {
+    //     initSocket(dispatch)
+    // }, []);
 
     return <>{children}</>
 }

@@ -93,6 +93,7 @@ class UserController {
                 path: '/'
             }
         )
+
         return res.json({email: req.user.email});
     }
 }

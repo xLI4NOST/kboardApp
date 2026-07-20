@@ -4,19 +4,55 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Card, CardProps} from "@/components/Card/Card";
 import {closestCorners, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
 import {Modal} from "@/components/Modal/Modal";
-import {useGetCardsQuery} from "@/lib/services/api";
+import {useGetCardsQuery, useGetCursorDataQuery, useGetOnlineUsersQuery} from "@/lib/services/api";
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 import {useTaskSync} from "@/hooks/useTaskSync";
 import {useParams, useSearchParams} from "next/navigation";
+import UsersList from "@/components/UsersList/UsersList";
+import {sendWebSocketMessage} from "@/app/webSocket/webSocket";
+import Cursour from "@/components/ui/Cursour";
+
 
 export default function Dashboard() {
     const [isOpen, setIsOpen] = useState(false);
     const [isModalContent, setIsModalContent] = useState('');
-    const {id} = useParams()
+    const {slug} = useParams()
+    const searchParams = useSearchParams()
+    const name = searchParams.get('name');
+    const {data: Users} = useGetOnlineUsersQuery(slug)
+    const {data: Cursorus} = useGetCursorDataQuery(slug)
 
-    useTaskSync()
+    if (Cursorus && Cursorus.length > 0) {
+        console.log(Object.values(Cursorus));
+    }
 
-    const {data: cards} = useGetCardsQuery(id)
+
+    useTaskSync(slug as string);
+
+
+    useEffect(() => {
+        const sendMouseEvent = (e) => {
+            sendWebSocketMessage('mouseMove', {
+                x: e.clientX,
+                y: e.clientY,
+                slug: slug,
+            })
+        }
+
+        window.addEventListener('mousemove', (e) => sendMouseEvent(e))
+
+        return () => window.removeEventListener('mousemove', (e) => sendMouseEvent(e))
+    }, []);
+
+    useEffect(() => {
+        if (!slug) return
+        // console.log('messageSocket')
+        sendWebSocketMessage('joinRoom', {slug})
+
+    }, [slug]);
+
+
+    const {data: cards} = useGetCardsQuery(slug)
 
     const handleOpenModal = (type) => {
         setIsOpen(prev => !prev);
@@ -53,10 +89,17 @@ export default function Dashboard() {
         gap-[60px]
         '>
         <div>
-            <h1 className='text-white'>Project Name</h1>
+            <h1 className='text-white'>{name && name}</h1>
             <p className='text-white'>Goal of the board...</p>
+            <UsersList users={Users}/>
         </div>
+
+        {Cursorus && Object.values(Cursorus).map((cursor) => (
+            <Cursour key={cursor.userId} x={cursor.x} y={cursor.y} email={cursor.email}/>
+        ))}
+
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} content={isModalContent}/>
+
         <div className='flex flex-row gap-[10px] max-[1440px]:flex-wrap justify-center'>
             <DndContext
                 sensors={sensors}
@@ -65,17 +108,20 @@ export default function Dashboard() {
                 onDragOver={handleDragOver}
             >
                 {cards.map((item, index) => (
-                    <Card key={item.id} id={item.id} dashboardId={id} index={index} name={item.name} handleOpenModal={()=>{handleOpenModal('addTask')}}/>
+                    <Card key={item.id} id={item.id} dashboardId={slug} index={index} name={item.name}
+                          handleOpenModal={() => {
+                              handleOpenModal('addTask')
+                          }}/>
                 ))}
 
-                <button className='cursor-pointer' onClick={()=>handleOpenModal('addCard')}>
+                <button className='cursor-pointer' onClick={() => handleOpenModal('addCard')}>
                     <TaskAddIcon/>
                 </button>
             </DndContext>
         </div>
     </div> : <div className={'w-full h-full'}>
         <Modal isOpen={isOpen} setIsOpen={setIsOpen} content={isModalContent}/>
-        <button className='cursor-pointer' onClick={()=>setIsOpen(prev => !prev)}>
+        <button className='cursor-pointer' onClick={() => setIsOpen(prev => !prev)}>
             <TaskAddIcon/>
         </button>
         Нет карточек

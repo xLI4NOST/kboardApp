@@ -10,6 +10,7 @@ import Link from "next/link";
 import {useEffect} from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {authenticate} from "@/lib/reducers/UserSlice";
+import {initSocket} from "@/app/webSocket/webSocket";
 
 
 interface formData {

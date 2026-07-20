@@ -31,8 +31,7 @@ export const Form = ({setIsOpen, content}: iForm) => {
     const [addCard] = useAddCardMutation()
     const [addDashboard] = useAddDashboardMutation()
 
-    const {id} = useParams()
-    console.log(content)
+    const {slug} = useParams()
 
     const defaultValues = {
         title: "",
@@ -47,7 +46,7 @@ export const Form = ({setIsOpen, content}: iForm) => {
     const handleAddTask = async (data) => {
         const newData = {
             ...data,
-            dashboardId: id
+            slug: slug
         }
         try {
             const response = await addTask(newData).unwrap()
@@ -60,7 +59,7 @@ export const Form = ({setIsOpen, content}: iForm) => {
 
     const handleAddCard = async (data) => {
         try {
-            const response = await addCard({name: data.title, dashboardId: id})
+            const response = await addCard({name: data.title, dashboardId: slug})
             toast.success(response.message)
 
         }catch (e) {
@@ -70,7 +69,7 @@ export const Form = ({setIsOpen, content}: iForm) => {
     }
 
     const handleAddDashboard = async (data) =>{
-        console.log('addDash')
+
         try {
             const response = await addDashboard(data)
             toast.success(response.message)

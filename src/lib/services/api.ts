@@ -12,6 +12,16 @@ export const api = createApi({
     tagTypes: ['Dashboards','Tasks', 'Cards'],
 
     endpoints: (builder) => ({
+        getOnlineUsers: builder.query<any[], string>({
+            queryFn:()=>({
+                data: []
+            })
+        }),
+        getCursorData: builder.query<any[], string>({
+            queryFn:()=>({
+                data: {}
+            })
+        }),
         getDashboards: builder.query<any[], void>({
             query: ()=> 'dashboard/dashboards',
             providesTags:['Dashboards'],
@@ -123,6 +133,8 @@ export const api = createApi({
 });
 
 export const {
+    useGetOnlineUsersQuery,
+    useGetCursorDataQuery,
     useAddDashboardMutation,
     useGetDashboardsQuery,
     useGetCardsQuery,

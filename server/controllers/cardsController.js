@@ -3,6 +3,7 @@ const {User, Card, Dashboard} = require('../models/model');
 
 class CardController {
     async getCards(req, res, next) {
+
         const {id} = req.user
         const {dashboardId} = req.params
 
@@ -12,11 +13,14 @@ class CardController {
 
 
         try {
+            const dashboard = await Dashboard.findOne({where: {slug: dashboardId}})
+
             const cards = await Card.findAll({
                 where: {
-                    dashboardId: dashboardId
+                    dashboardId: dashboard.id
                 }
             })
+
 
 
             return res.json(cards)
@@ -28,15 +32,15 @@ class CardController {
     async addCard(req, res, next) {
         const {email, id} = req.user
         const {title, dashboardId} = req.body
-        const dashBoard = await Dashboard.findOne({
+
+        const dashboard = await Dashboard.findOne({
             where: {
-                userId: id,
-                id: dashboardId
+                slug: dashboardId
             },
         })
+        console.log(dashboard)
 
-
-        if (!dashBoard) {
+        if (!dashboard) {
             return next(ApiError.badRequest('Ошибка, такой дашборд не существует'))
         }
 
@@ -53,7 +57,7 @@ class CardController {
 
         try {
             const card = await Card.create({
-                dashboardId: dashboardId,
+                dashboardId: dashboard.id,
                 name: title,
             })
 

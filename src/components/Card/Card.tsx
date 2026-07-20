@@ -48,8 +48,6 @@ export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: Card
     const [deleteCard] = useDeleteCardMutation()
 
     const dispatch = useDispatch();
-    console.log(dashboardId)
-
 
     const onDragEnd = async (data) => {
         const activeIndex = data.active.data.current.sortable.index

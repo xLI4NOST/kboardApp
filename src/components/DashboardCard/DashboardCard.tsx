@@ -11,7 +11,12 @@ export interface DashboardCardProps {
 
 const DashboardCard = ({name, backGround, id, slug}: DashboardCardProps) => {
     return (
-        <Link href={`/dashboard/${id}`}>
+        <Link href={{
+            pathname: `/dashboard/${slug}`,
+            query:{
+                name
+            }
+        }}>
             <div className="w-[300px] h-[200px] bg-white rounded-sm flex items-center justify-center cursor-pointer"
                  key={name}>
                 <h2>{name}</h2>

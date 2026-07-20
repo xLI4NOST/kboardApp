@@ -5,7 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d58e2067-551a-4d07-b242-3914e85858b6" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/components/UsersList/UsersList.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/components/ui/Cursour.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/cardsController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/cardsController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/taskController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/taskController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/controllers/userController.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/controllers/userController.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/server/webSocket.js" beforeDir="false" afterPath="$PROJECT_DIR$/server/webSocket.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/(auth)/assets/AuthForm/AuthForm.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/(auth)/assets/AuthForm/AuthForm.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/dashboard/[id]/page.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/dashboard/[slug]/page.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/webSocket/webSocket.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/webSocket/webSocket.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Card/Card.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Card/Card.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/DashboardCard/DashboardCard.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/DashboardCard/DashboardCard.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Form/Form.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Form/Form.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Task/Task.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Task/Task.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/hooks/useTaskSync.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/hooks/useTaskSync.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/Provider.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/Provider.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/lib/services/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/lib/services/api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/middleware.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/middleware.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,6 +145,15 @@
       <workItem from="1782948305335" duration="5000" />
       <workItem from="1782992362729" duration="6002000" />
       <workItem from="1783171175911" duration="3630000" />
+      <workItem from="1783201823047" duration="1035000" />
+      <workItem from="1783602985197" duration="4323000" />
+      <workItem from="1783683024479" duration="14171000" />
+      <workItem from="1783772064507" duration="2081000" />
+      <workItem from="1783947724027" duration="4793000" />
+      <workItem from="1784143201037" duration="4000" />
+      <workItem from="1784202963868" duration="10060000" />
+      <workItem from="1784224313884" duration="4777000" />
+      <workItem from="1784243477711" duration="2149000" />
     </task>
     <servers />
   </component>
@@ -155,7 +181,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/Card/Card.tsx</url>
-          <line>85</line>
+          <line>83</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
