@@ -17,6 +17,7 @@ export const api = createApi({
             })
         }),
         getCursorData: builder.query<any[], string>({
+            // @ts-ignore
             queryFn:()=>({
                 data: {}
             })
