@@ -6,44 +6,46 @@ import {Textarea} from "@/components/ui/textarea"
 import {Button} from "@/components/ui/button"
 import {Controller, SubmitHandler, useForm} from "react-hook-form";
 import {useDispatch, useSelector} from "react-redux";
-import {addToDo} from "@/lib/reducers/ToDoSlice";
-import {register} from "node:module";
+import {RootState} from "@/lib/reducers/ToDoSlice";
 import {useAddCardMutation, useAddDashboardMutation, useAddTaskMutation} from "@/lib/services/api";
 import {toast} from "react-toastify";
 import {useParams} from "next/navigation";
+import React from "react";
 
 interface IFormInput {
-    text: string;
-    taskDescription: string;
-    Priority: Priority;
+    title: string;
+    description: string;
+    priority: string; // или нужный тебе тип
+    cardId: string;
+
 }
 
 interface iForm {
-    setIsOpen: () => void
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
     content: 'addTask' | 'addCard' | 'addDashBoard'
 }
 
 
 export const Form = ({setIsOpen, content}: iForm) => {
     const dispatch = useDispatch()
-    const selectedCard = useSelector(state => state.toDoSlice.selectedCard)
+    const selectedCard = useSelector((state: RootState) => state.toDoSlice.selectedCard)
     const [addTask] = useAddTaskMutation()
     const [addCard] = useAddCardMutation()
     const [addDashboard] = useAddDashboardMutation()
 
-    const {slug} = useParams()
+    const {slug} = useParams<{slug: string}>()
 
     const defaultValues = {
         title: "",
         description: "",
-        priority: {},
+        priority: "",
         cardId: selectedCard
     }
-    const {control, handleSubmit, register, formState: {errors}} = useForm({
+    const {control, handleSubmit, register, formState: {errors}} = useForm<IFormInput>({
         defaultValues: defaultValues,
     })
 
-    const handleAddTask = async (data) => {
+    const handleAddTask = async (data: any) => {
         const newData = {
             ...data,
             slug: slug
@@ -51,29 +53,29 @@ export const Form = ({setIsOpen, content}: iForm) => {
         try {
             const response = await addTask(newData).unwrap()
             toast.success(response.message)
-        } catch (err) {
+        } catch (err: any) {
             toast.error(err.message)
         }
         setIsOpen((prevState) => !prevState)
     }
 
-    const handleAddCard = async (data) => {
+    const handleAddCard = async (data: any) => {
         try {
-            const response = await addCard({name: data.title, dashboardId: slug})
+            const response = await addCard({name: data.title, dashboardId: slug}).unwrap()
             toast.success(response.message)
 
-        }catch (e) {
+        }catch (e: any) {
             toast.error(e.message)
         }
         setIsOpen((prevState) => !prevState)
     }
 
-    const handleAddDashboard = async (data) =>{
+    const handleAddDashboard = async (data: any) =>{
 
         try {
-            const response = await addDashboard(data)
+            const response = await addDashboard(data).unwrap()
             toast.success(response.message)
-        }catch (e){
+        }catch (e: any){
             toast.error(e.message)
         }
         setIsOpen((prevState) => !prevState)

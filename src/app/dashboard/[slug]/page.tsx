@@ -2,7 +2,15 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {Card, CardProps} from "@/components/Card/Card";
-import {closestCorners, DndContext, PointerSensor, useSensor, useSensors} from "@dnd-kit/core";
+import {
+    closestCorners,
+    DndContext,
+    DragOverEvent,
+    DragStartEvent,
+    PointerSensor,
+    useSensor,
+    useSensors
+} from "@dnd-kit/core";
 import {Modal} from "@/components/Modal/Modal";
 import {useGetCardsQuery, useGetCursorDataQuery, useGetOnlineUsersQuery} from "@/lib/services/api";
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
@@ -12,26 +20,30 @@ import UsersList from "@/components/UsersList/UsersList";
 import {sendWebSocketMessage} from "@/app/webSocket/webSocket";
 import Cursour from "@/components/ui/Cursour";
 
+export type ModalContent = 'addTask' | 'addCard' | 'addDashBoard';
 
 export default function Dashboard() {
+
     const [isOpen, setIsOpen] = useState(false);
-    const [isModalContent, setIsModalContent] = useState('');
-    const {slug} = useParams()
+    const [isModalContent, setIsModalContent] = useState <ModalContent> ('addCard');
+    const {slug} = useParams<{slug: string}>()
     const searchParams = useSearchParams()
     const name = searchParams.get('name');
-    const {data: Users} = useGetOnlineUsersQuery(slug)
-    const {data: Cursorus} = useGetCursorDataQuery(slug)
+    const {data: Users} = useGetOnlineUsersQuery(slug as string, {skip: !slug});
+    const {data: Cursorus} = useGetCursorDataQuery(slug as string, {skip: !slug})
+    const {data: cards} = useGetCardsQuery(slug as string, {skip: !slug});
 
-    if (Cursorus && Cursorus.length > 0) {
-        console.log(Object.values(Cursorus));
-    }
+    // if (Cursorus && Cursorus.length > 0) {
+    //     console.log(Cursorus);
+    // }
+    console.log(Cursorus)
 
 
     useTaskSync(slug as string);
 
 
     useEffect(() => {
-        const sendMouseEvent = (e) => {
+        const sendMouseEvent = (e: MouseEvent) => {
             sendWebSocketMessage('mouseMove', {
                 x: e.clientX,
                 y: e.clientY,
@@ -51,10 +63,7 @@ export default function Dashboard() {
 
     }, [slug]);
 
-
-    const {data: cards} = useGetCardsQuery(slug)
-
-    const handleOpenModal = (type) => {
+    const handleOpenModal = (type : ModalContent) => {
         setIsOpen(prev => !prev);
         setIsModalContent(type);
     }
@@ -63,11 +72,11 @@ export default function Dashboard() {
         useSensor(PointerSensor),
     );
 
-    const handleDragStart = (event) => {
+    const handleDragStart = (event: DragStartEvent) => {
         const {active} = event;
     }
 
-    const handleDragOver = (event) => {
+    const handleDragOver = (event: DragOverEvent) => {
         const {active, over} = event
         if (!over) return
     }

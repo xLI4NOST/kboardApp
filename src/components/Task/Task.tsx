@@ -11,7 +11,7 @@ export interface TaskI {
     subtitle: string;
     priority: 'critical' | 'high' | 'medium' | 'low';
     order: number;
-    deleteTask?: (order: number) => void;
+    deleteTask: () => void;
 }
 
 export const Task = ({id, subtitle, priority, order, deleteTask, title}: TaskI) => {

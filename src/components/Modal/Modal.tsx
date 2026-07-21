@@ -11,11 +11,13 @@ import {
 } from "@/components/ui/card"
 import {Form} from "@/components/Form/Form";
 import {CloseIcon} from "@/components/Modal/icons/CloseIcon";
+import React from "react";
+import {ModalContent} from "@/app/dashboard/[slug]/page";
 
 export interface ModalProps {
-    content: 'addTask' | 'addCard' | 'addDashBoard';
+    content: ModalContent;
     isOpen: boolean;
-    setIsOpen: () => void;
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const Modal = ({isOpen, setIsOpen, content}: ModalProps) => {
@@ -24,7 +26,7 @@ export const Modal = ({isOpen, setIsOpen, content}: ModalProps) => {
         <CardHeader>
             <button className='cursor-pointer' onClick={(e)=>{
                 e.stopPropagation();
-                setIsOpen();
+                setIsOpen(false);
             }}>
                 <CloseIcon/>
             </button>

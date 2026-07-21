@@ -1,10 +1,17 @@
 import React from 'react';
 import {useSelector} from "react-redux";
+import {RootState} from "@/lib/reducers/ToDoSlice";
 
-const Cursour = ({x, y, email}) => {
-    const userState = useSelector(state => state.userSlice)
+interface CursourProps {
+    x:number,
+    y:number,
+    email:string
+}
 
+const Cursour = ({x, y, email}: CursourProps) => {
+    const userState = useSelector((state:RootState) => state.userSlice)
 
+    
     return userState.email !== email && <div
             className="absolute z-3"
             style={{

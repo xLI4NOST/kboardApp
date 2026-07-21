@@ -1,6 +1,5 @@
 import {createApi, fetchBaseQuery} from "@reduxjs/toolkit/query/react";
 import {sendWebSocketMessage} from "@/app/webSocket/webSocket";
-import {MutationLifecycleApi, QueryLifecycleApi} from "@reduxjs/toolkit/src/query/core";
 
 export const api = createApi({
     reducerPath: 'api',
@@ -26,7 +25,7 @@ export const api = createApi({
             query: ()=> 'dashboard/dashboards',
             providesTags:['Dashboards'],
         }),
-        addDashboard: builder.mutation<void>({
+        addDashboard: builder.mutation<{message: string}, string>({
             query: (name)=>({
                 url: '/dashboard/createDashboard',
                 method: 'POST',
@@ -34,11 +33,11 @@ export const api = createApi({
             }),
             invalidatesTags:['Dashboards'],
         }),
-        getCards: builder.query<any[], number>({
+        getCards: builder.query<any[], string>({
             query: (dashboardId) => `card/${dashboardId}/cards`,
             providesTags: ['Cards'],
         }),
-        addCard: builder.mutation<any[], void>({
+        addCard: builder.mutation<{message: string}, {name: string, dashboardId: string}>({
             query: ({name, dashboardId}) => ({
                 url: `card/addCard`,
                 method: 'POST',
@@ -48,16 +47,16 @@ export const api = createApi({
                 }
             }),
             invalidatesTags: ['Cards'],
-            onQueryStarted: async (params, {queryFulfilled}): Promise<void> | void => {
+            onQueryStarted: async (params, {queryFulfilled}): Promise<void> => {
                 try {
                     await queryFulfilled
                     sendWebSocketMessage('addCard')
-                } catch (error) {
+                } catch (error: any) {
                     console.log('error', error);
                 }
             }
         }),
-        deleteCard: builder.mutation<any[], void>({
+        deleteCard: builder.mutation<{ message: string }, number>({
             query: (id) => ({
                 url: `card/deleteCard/${id}`,
                 method: 'DELETE',
@@ -68,16 +67,16 @@ export const api = createApi({
                     await queryFulfilled
 
                     sendWebSocketMessage('deleteCard')
-                } catch (error) {
+                } catch (error: any) {
                     console.log('error', error);
                 }
             }
         }),
-        getTaskByCardId: builder.query<any[], void>({
+        getTaskByCardId: builder.query<any[], number>({
             query: (cardId: number) => `task/${cardId}/tasks`,
             providesTags: (result, error, cardId) => [{type: 'Tasks', id: cardId}],
         }),
-        addTask: builder.mutation<void>({
+        addTask: builder.mutation<{message: string}, any>({
             query: (newTask) => ({
                 url: 'task/add',
                 method: 'POST',
@@ -96,7 +95,7 @@ export const api = createApi({
                 }
             }
         }),
-        deleteTask: builder.mutation<void>({
+        deleteTask: builder.mutation<{message: string}, {id: number; cardId: number}>({
             query: (params) => ({
                 url: `task/deleteTask/${params.id}`,
                 method: 'DELETE',
@@ -112,12 +111,14 @@ export const api = createApi({
                 }
             },
         }),
-        changeOrderTask: builder.mutation<void>({
+        changeOrderTask: builder.mutation<{message: string}, { newArr: any[]; id: number }>({
+            // @ts-ignore
             query: ({newArr, cardId}) => ({
                 url: `task/changeOrderTasks/`,
                 method: 'PATCH',
                 body: newArr
             }),
+            // @ts-ignore
             invalidatesTags: (result, error, arg) => [{type: 'Tasks', id: arg.cardId}],
             onQueryStarted: async (params, {queryFulfilled}) => {
                 try {

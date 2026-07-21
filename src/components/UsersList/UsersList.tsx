@@ -4,7 +4,14 @@ import React from 'react';
 import {Select, SelectContent, SelectItem, SelectTrigger, SelectValue} from "@/components/ui/select";
 import {useGetOnlineUsersQuery} from "@/lib/services/api";
 
-const UsersList = ({users}) => {
+interface UserListProps {
+    users?:{
+        id:string,
+        email:string,
+    }[]
+}
+
+const UsersList = ({users}: UserListProps) => {
 
     return <Select>
         <SelectTrigger className="w-[210px] !text-green-300">

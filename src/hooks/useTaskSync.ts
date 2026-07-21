@@ -4,8 +4,8 @@ import {api} from "@/lib/services/api";
 import {useDispatch} from "react-redux";
 import {toast} from "react-toastify";
 
-export function useTaskSync(slug) {
-    const dispatch = useDispatch();
+export function useTaskSync(slug: string) {
+    const dispatch: any = useDispatch();
 
     useEffect(() => {
         const unsubscribe = subscribeToWebSocket((message) => {

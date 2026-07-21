@@ -6,10 +6,11 @@ import {toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import {authenticate} from "@/lib/reducers/UserSlice";
 import {api} from "@/lib/services/api";
+import {RootState} from "@/lib/reducers/ToDoSlice";
 
 
 export default function UserProfile() {
-    const userState = useSelector(state => state.userSlice)
+    const userState = useSelector((state:RootState) => state.userSlice)
     const router = useRouter()
     const dispatch = useDispatch()
 
@@ -19,7 +20,7 @@ export default function UserProfile() {
             toast.success("User logged out successfully")
             dispatch(api.util.resetApiState());
             router.push('/login')
-        } catch (error) {
+        } catch (error: any) {
             toast.error(error.message)
         }
     }

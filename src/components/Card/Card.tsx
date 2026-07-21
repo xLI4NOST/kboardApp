@@ -7,7 +7,7 @@ import {
     KeyboardSensor,
     PointerSensor,
     useSensor,
-    useSensors, closestCorners, useDroppable,
+    useSensors, closestCorners, useDroppable, DragEndEvent,
 } from '@dnd-kit/core';
 import {
     arrayMove, rectSortingStrategy,
@@ -15,7 +15,7 @@ import {
     verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import {useDispatch, useSelector} from "react-redux";
-import {setSelectedCard, changeOrder, deleteTodo} from "@/lib/reducers/ToDoSlice";
+import {setSelectedCard} from "@/lib/reducers/ToDoSlice";
 import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 import {
     api,
@@ -31,13 +31,13 @@ import {TrashIcon} from "@/components/Task/icons/TrashIcon";
 
 export interface CardProps {
     name: string;
-    id: string;
+    id: number;
     index?: number;
     handleOpenModal: () => void;
     dashboardId: string;
 }
 
-export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: CardProps) => {
+export const Card = ({name, id, index, handleOpenModal, dashboardId}: CardProps) => {
     const sensors = useSensors(
         useSensor(PointerSensor),
     );
@@ -49,13 +49,21 @@ export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: Card
 
     const dispatch = useDispatch();
 
-    const onDragEnd = async (data) => {
-        const activeIndex = data.active.data.current.sortable.index
-        const overIndex = data.over.data.current.sortable.index
+    const onDragEnd = async (data: DragEndEvent) => {
+
+        const activeData = data.active.data.current
+        const overData = data.over?.data.current
+        if (!activeData || !overData) return
+
+        const activeIndex = activeData.sortable.index
+        const overIndex = overData.sortable.index
+
         if (activeIndex === overIndex) return
 
 
         const orderedArr = async () => {
+            if (!tasks) return
+
             const newArr = arrayMove(tasks, activeIndex, overIndex)
 
             newArr.map((task, index) => ({
@@ -68,10 +76,14 @@ export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: Card
 
         const newArr = await orderedArr()
 
+        if (!newArr) return
+
         try {
+            // @ts-ignore
+
             const response = await changeOrderTask({newArr, id}).unwrap()
             toast.success(response.message)
-        } catch (error) {
+        } catch (error: any) {
             toast.error(error.status)
         }
 
@@ -81,23 +93,23 @@ export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: Card
         handleOpenModal()
 
     }
-    const handleDeleteTask = async (id, cardId) => {
+    const handleDeleteTask = async (id: number, cardId: number) => {
 
         try {
             const response = await deleteTask({id, cardId}).unwrap()
 
             toast.success(response.message)
-        } catch (error) {
+        } catch (error: any) {
             toast.error(error.message)
         }
     }
 
-    const handleDeleteCard = async (cardId)=>{
+    const handleDeleteCard = async (cardId: number) => {
         try {
             const response = await deleteCard(cardId).unwrap()
 
             toast.success(response.message)
-        }catch (error) {
+        } catch (error: any) {
             toast.error(error.message)
         }
     }
@@ -118,7 +130,7 @@ export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: Card
         rounded-sm
         max-[1100px]:w-[100%]
         ">
-        <button className='absolute right-[20px] cursor-pointer' onClick={()=>handleDeleteCard(id)}>
+        <button className='absolute right-[20px] cursor-pointer' onClick={() => handleDeleteCard(id)}>
             <TrashIcon/>
         </button>
 
@@ -128,7 +140,7 @@ export const Card = ({name, id, index, data, handleOpenModal, dashboardId}: Card
             onDragEnd={onDragEnd}
             collisionDetection={closestCorners}
         >
-            <SortableContext items={tasks} strategy={verticalListSortingStrategy} id={id}>
+            <SortableContext items={tasks} strategy={verticalListSortingStrategy} id={id + ''}>
 
                 <div ref={setNodeRef} className='flex flex-col items-center gap-[30px] mt-[20px]'>
                     {tasks.map((item) => (

@@ -9,7 +9,7 @@ import {TaskAddIcon} from "@/components/Card/icons/TaskAddIcon";
 
 
 export interface DashboardProps {
-    dashBoardCards: DashboardCardProps[]
+    dashBoardCards?: DashboardCardProps[]
     backGround?: string
 }
 
@@ -19,8 +19,8 @@ const Dashboards = ({dashBoardCards, backGround}:DashboardProps) => {
 
     return<div className={'flex justify-start gap-[20px]'}>
             <Modal content={'addDashBoard'} isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>
-            {dashboards ? dashboards.map((dashBoard)=>(<DashboardCard key={dashBoard.id} name={dashBoard.name} backGround={dashBoard.backGround} slug={dashBoard.slug} id={dashBoard.id}/>)) : <NoDashboards isOpen={isModalOpen} setIsOpen={setIsModalOpen}/>}
-            <button className='cursor-pointer' onClick={setIsModalOpen}>
+            {dashboards ? dashboards.map((dashBoard)=>(<DashboardCard key={dashBoard.id} name={dashBoard.name} backGround={dashBoard.backGround} slug={dashBoard.slug} id={dashBoard.id}/>)) : <NoDashboards setIsOpen={setIsModalOpen}/>}
+            <button className='cursor-pointer' onClick={()=>setIsModalOpen(true)}>
                 <TaskAddIcon/>
             </button>
         </div>

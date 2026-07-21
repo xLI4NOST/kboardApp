@@ -13,7 +13,6 @@ const AuthInit = ({children}: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const initAuth = async () => {
-            // console.log("1. checkAuth");
             try {
                 const res = await checkAuth()
                 const email = res.data.email;
@@ -21,7 +20,7 @@ const AuthInit = ({children}: { children: React.ReactNode }) => {
                 await initSocket()
 
                 dispatch(authenticate({email}))
-            } catch (e) {
+            } catch (e: any) {
                 toast.error(e.message)
             }
         }
